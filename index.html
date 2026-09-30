@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FrontDesk JA — The Front Desk of the Future</title>
+  <meta name="description" content="FrontDesk JA handles the repetitive work behind your business — AEO, an AI Assistant and an AI Receptionist working as one front desk, 24/7.">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="assets/img/mark.svg" type="image/svg+xml">
+
+  <meta property="og:title" content="FrontDesk JA — The Front Desk of the Future">
+  <meta property="og:description" content="Stop getting trapped by admin work. Let FrontDesk JA handle more of the repetitive work behind your business.">
+  <meta property="og:image" content="assets/img/trap.webp">
+  <meta property="og:type" content="website">
+
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/archivo-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/montserrat-latin.woff2" crossorigin>
+  <link rel="preload" as="image" href="assets/img/trap.webp">
+  <link rel="stylesheet" href="assets/css/styles.css">
+
+  <script>document.documentElement.classList.add('js');</script>
+  <script src="assets/js/config.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/intake.js" defer></script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="fd-mark" viewBox="0 0 61 43">
+      <path fill="currentColor" d="M1 2h42a16.5 19.25 0 0 1 0 38.5H22v-8h21a8 11.25 0 0 0 0-22.5H1z"/>
+      <path fill="currentColor" d="M1 17.5h33v8H9.5v15H1z"/>
+    </symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M4 12h15m-6-6 6 6-6 6"/>
+    </symbol>
+  </svg>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="FrontDesk JA — home">
+      <svg class="brand__mark" aria-hidden="true"><use href="#fd-mark"/></svg>
+      <span class="brand__text">
+        <span class="brand__word"><b>FRONT</b>DESK<small>JA</small></span>
+        <span class="brand__tag">Empowering the world with AI.</span>
+      </span>
+    </a>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Full-screen menu -->
+  <div class="menu" id="menu" hidden>
+    <nav class="menu__nav" aria-label="Main">
+      <ol class="menu__list">
+        <li><a class="menu__link" href="#home">Home</a></li>
+        <li class="menu__group">
+          <span class="menu__label">Services</span>
+          <ul class="menu__sub">
+            <li><a href="#aeo"><span>AEO</span><em>Be found</em></a></li>
+            <li><a href="#assistant"><span>Assistant</span><em>Be available</em></a></li>
+            <li><a href="#receptionist"><span>Receptionist</span><em>No hold time</em></a></li>
+          </ul>
+        </li>
+        <li><span class="menu__link is-soon" aria-disabled="true">Pricing <i class="tag">Next</i></span></li>
+        <li><span class="menu__link is-soon" aria-disabled="true">Ask FrontDesk <i class="tag">Next</i></span></li>
+        <li><span class="menu__link is-soon" aria-disabled="true">About <i class="tag">Next</i></span></li>
+      </ol>
+    </nav>
+    <div class="menu__foot">
+      <button class="btn" type="button" data-intake>Get Started <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      <p>The front desk of the future.</p>
+    </div>
+  </div>
+
+  <main id="main">
+
+    <!-- 1 — HERO -->
+    <section class="page page--hero" id="home" data-page aria-labelledby="h-home">
+      <div class="page__copy">
+        <p class="eyebrow r">The front desk of the future</p>
+        <h1 class="headline headline--wide" id="h-home">
+          <span class="ln"><span>Stop</span></span>
+          <span class="ln"><span>getting</span></span>
+          <span class="ln"><span>trapped</span></span>
+          <span class="ln ln--light"><span>by admin work.</span></span>
+        </h1>
+        <p class="body r">Let FrontDesk JA handle more of the repetitive work behind your business — so you can focus on what actually grows it.</p>
+        <p class="r"><button class="btn" type="button" data-intake>Get Started <svg aria-hidden="true"><use href="#i-arrow"/></svg></button></p>
+      </div>
+      <figure class="visual visual--trap">
+        <div class="visual__motion">
+          <img class="visual__img" src="assets/img/trap.webp" width="796" height="729"
+               alt="A man in a business suit pinned face-down under an oversized mousetrap branded with the FrontDesk mark.">
+        </div>
+      </figure>
+      <a class="scroll-cue r" href="#solution" aria-label="Scroll to the next section"><span></span></a>
+    </section>
+
+    <!-- 2 — THE SOLUTION / ONE SYSTEM -->
+    <section class="page page--solution" id="solution" data-page aria-labelledby="h-solution">
+      <div class="page__copy">
+        <p class="eyebrow r">The solution</p>
+        <h2 class="headline headline--condensed" id="h-solution">
+          <span class="ln"><span>The front desk</span></span>
+          <span class="ln"><span>of the future.</span></span>
+        </h2>
+        <p class="kicker r">One system. A more productive business.</p>
+        <p class="body r">AI-powered capabilities that handle the repetitive work behind your business — so you can focus on what actually grows it.</p>
+        <ul class="trio r" aria-label="The three capabilities">
+          <li><a href="#aeo"><b>AEO</b><span>Be found</span></a></li>
+          <li><a href="#assistant"><b>Assistant</b><span>Be available</span></a></li>
+          <li><a href="#receptionist"><b>Receptionist</b><span>No hold time</span></a></li>
+        </ul>
+        <p class="r"><button class="btn" type="button" data-intake>Get Started <svg aria-hidden="true"><use href="#i-arrow"/></svg></button></p>
+      </div>
+      <figure class="visual visual--atrium">
+        <div class="visual__motion">
+          <img class="visual__img" src="assets/img/atrium.webp" width="876" height="734" loading="lazy"
+               alt="A businessman walks through a bright atrium toward the FrontDesk mark, flanked by panels for AEO, Assistant and Receptionist.">
+        </div>
+      </figure>
+    </section>
+
+    <!-- 3 — AEO -->
+    <section class="page page--aeo" id="aeo" data-page aria-labelledby="h-aeo">
+      <div class="page__copy">
+        <p class="eyebrow r">AEO — Be found</p>
+        <h2 class="headline headline--wide" id="h-aeo">
+          <span class="ln"><span>Be</span></span>
+          <span class="ln"><span>found.</span></span>
+        </h2>
+        <p class="subhead r">Make AI recommend your business.</p>
+        <p class="body r">We structure your business so AI understands what you do, where you do it, and who you serve — so the right customers can find you and choose you.</p>
+        <ol class="steps r" aria-label="How it works">
+          <li><b>01</b>Your business, structured</li>
+          <li><b>02</b>Readable by AI</li>
+          <li><b>03</b>Ready to be recommended</li>
+        </ol>
+        <p class="r"><button class="btn" type="button" data-intake>Get Started <svg aria-hidden="true"><use href="#i-arrow"/></svg></button></p>
+      </div>
+      <figure class="visual visual--aeo">
+        <div class="visual__motion">
+          <img class="visual__img" src="assets/img/aeo.webp" width="901" height="734" loading="lazy"
+               alt="A business record for ABC Plumbing in Kingston, Jamaica, being understood by AI and surfaced as a recommendation for “Who can fix my AC in Kingston?”">
+        </div>
+      </figure>
+    </section>
+
+    <!-- 4 — ASSISTANT -->
+    <section class="page page--assistant" id="assistant" data-page aria-labelledby="h-assistant">
+      <div class="page__copy">
+        <p class="eyebrow r">Assistant — Be available</p>
+        <h2 class="headline headline--semi" id="h-assistant">
+          <span class="ln"><span>Be</span></span>
+          <span class="ln"><span>available.</span></span>
+        </h2>
+        <p class="subhead r">Talk to every customer 24/7.</p>
+        <p class="body r">FrontDesk’s AI Assistant continuously communicates with your customers, answers their questions, captures their information, and moves them toward booking — day or night.</p>
+        <p class="r"><button class="btn" type="button" data-intake>Get Started <svg aria-hidden="true"><use href="#i-arrow"/></svg></button></p>
+      </div>
+      <figure class="visual visual--assistant">
+        <div class="visual__motion">
+          <img class="visual__img" src="assets/img/assistant.webp" width="871" height="734" loading="lazy"
+               alt="A businessman walks past glass panels showing customer conversations handled by the FrontDesk AI Assistant.">
+        </div>
+        <div class="live-chat" aria-hidden="true">
+          <div class="live-chat__head"><svg><use href="#fd-mark"/></svg><span>FrontDesk Assistant</span><i>Online</i></div>
+          <div class="live-chat__body"></div>
+        </div>
+      </figure>
+    </section>
+
+    <!-- 5 — RECEPTIONIST -->
+    <section class="page page--receptionist" id="receptionist" data-page aria-labelledby="h-receptionist">
+      <div class="page__copy">
+        <p class="eyebrow r">Receptionist</p>
+        <h2 class="headline headline--condensed" id="h-receptionist">
+          <span class="ln"><span>No hold</span></span>
+          <span class="ln"><span>time.</span></span>
+        </h2>
+        <p class="subhead r">Talk to multiple customers at the same time. 24/7.</p>
+        <p class="body r">FrontDesk’s AI Receptionist answers your business calls, talks to multiple customers at the same time, handles their questions, captures their information, and moves them toward booking — 24/7.</p>
+        <p class="r"><button class="btn" type="button" data-intake>Get Started <svg aria-hidden="true"><use href="#i-arrow"/></svg></button></p>
+      </div>
+      <figure class="visual visual--receptionist">
+        <div class="visual__motion">
+          <img class="visual__img" src="assets/img/receptionist.webp" width="996" height="734" loading="lazy"
+               alt="Six customers calling at once, each connected to the FrontDesk AI Receptionist — none on hold.">
+        </div>
+        <div class="live-calls" aria-hidden="true">
+          <span class="live-calls__dot"></span>
+          <span><b data-calls>6</b> calls active</span>
+          <span class="live-calls__sep"></span>
+          <span><b>0</b> on hold</span>
+          <span class="live-calls__wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        </div>
+      </figure>
+    </section>
+
+    <!-- 6 — PAYOFF -->
+    <section class="page page--payoff" id="payoff" data-page aria-labelledby="h-payoff">
+      <div class="page__copy">
+        <p class="eyebrow r">The work that matters</p>
+        <h2 class="headline headline--wide" id="h-payoff">
+          <span class="ln"><span>Less</span></span>
+          <span class="ln"><span>admin.</span></span>
+          <span class="ln ln--light"><span>More time</span></span>
+          <span class="ln ln--light"><span>to grow.</span></span>
+        </h2>
+        <p class="body r">FrontDesk handles the repetitive work behind your business — so you can focus on what actually grows it.</p>
+        <ol class="gains" aria-label="What you gain">
+          <li class="r"><b>01</b>Respond faster</li>
+          <li class="r"><b>02</b>Stay available</li>
+          <li class="r"><b>03</b>Focus on your business</li>
+        </ol>
+        <p class="r"><button class="btn" type="button" data-intake>Get Started <svg aria-hidden="true"><use href="#i-arrow"/></svg></button></p>
+      </div>
+      <figure class="visual visual--office" aria-hidden="true">
+        <div class="visual__motion">
+          <div class="visual__img office">
+            <div class="office__wall">
+              <svg class="office__mark"><use href="#fd-mark"/></svg>
+              <span class="office__word"><b>FRONT</b>DESK<small>JA</small></span>
+            </div>
+            <div class="office__floor"></div>
+          </div>
+        </div>
+      </figure>
+    </section>
+
+    <footer class="footer" id="contact">
+      <div class="footer__cta">
+        <p class="eyebrow">Start the conversation</p>
+        <p class="footer__line">Ready for a front desk that never gets overwhelmed?</p>
+        <button class="btn btn--invert" type="button" data-intake>Get Started <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      </div>
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <svg class="brand__mark" aria-hidden="true"><use href="#fd-mark"/></svg>
+          <span class="brand__text">
+            <span class="brand__word"><b>FRONT</b>DESK<small>JA</small></span>
+            <span class="brand__tag">Empowering the world with AI.</span>
+          </span>
+        </div>
+        <nav class="footer__nav" aria-label="Footer">
+          <a href="#home">Home</a>
+          <a href="#aeo">AEO</a>
+          <a href="#assistant">Assistant</a>
+          <a href="#receptionist">Receptionist</a>
+        </nav>
+        <p class="footer__small">© <span data-year>2026</span> FrontDesk JA. The front desk of the future.</p>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Conversational intake -->
+  <div class="intake" id="intake" role="dialog" aria-modal="true" aria-labelledby="intake-title" hidden>
+    <div class="intake__panel">
+      <header class="intake__head">
+        <div class="intake__who">
+          <span class="avatar"><svg aria-hidden="true"><use href="#fd-mark"/></svg></span>
+          <div>
+            <p class="intake__title" id="intake-title">FrontDesk JA</p>
+            <p class="intake__status">Here to help</p>
+          </div>
+        </div>
+        <div class="intake__progress" aria-hidden="true"><span></span></div>
+        <button class="intake__close" type="button" aria-label="Close">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </button>
+      </header>
+      <div class="intake__log" aria-live="polite"></div>
+      <div class="intake__chips" role="group" aria-label="Quick answers"></div>
+      <form class="intake__form" novalidate>
+        <label class="sr" for="intake-input">Your answer</label>
+        <input id="intake-input" class="intake__input" type="text" autocomplete="off">
+        <button class="intake__skip" type="button" hidden>Skip</button>
+        <button class="intake__send" type="submit" aria-label="Send">
+          <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+        </button>
+      </form>
+      <p class="intake__error" role="alert"></p>
+    </div>
+  </div>
+</body>
+</html>
