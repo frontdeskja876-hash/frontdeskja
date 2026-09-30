@@ -1,6 +1,6 @@
 # FrontDesk JA — website
 
-A static, scroll-driven marketing site with six full-screen pages: Hero, The Solution, AEO, Assistant, Receptionist and Payoff/footer. It needs no build step and no framework.
+A static, scroll-driven marketing site. The home page is a six-screen story: Hero, The Solution, AEO, Assistant, Receptionist, Payoff. A separate Pricing page sits behind it. There is no build step and no framework.
 
 ## Run locally
 
@@ -14,10 +14,12 @@ To deploy, upload the folder to any static host (Netlify, Vercel, GitHub Pages, 
 ## Structure
 
 ```
-index.html              all six pages, menu, footer, intake dialog
-assets/css/styles.css   layout, type, motion states, responsive rules
-assets/js/main.js       IntersectionObserver page states, menu, live details
-assets/js/intake.js     conversational Get Started intake
+index.html              the six-page story, menu, footer
+pricing.html            packages + conversational intake (every Get Started lands here)
+assets/css/styles.css   layout, type, motion states, pricing, intake, responsive rules
+assets/js/main.js       IntersectionObserver page states, headline word split,
+                        scroll progress, menu, chat demo, page-6 "desk clears" piece
+assets/js/intake.js     conversational intake, opened from a package
 assets/js/config.js     ⚠️ lead endpoint (not configured yet)
 assets/img/             scene crops from the approved mockups, mark.svg
 assets/fonts/           self-hosted Archivo + Montserrat (variable, latin, OFL)
@@ -27,16 +29,20 @@ assets/fonts/           self-hosted Archivo + Montserrat (variable, latin, OFL)
 
 Each `[data-page]` moves through discrete states. None of them are tied to scroll position frame by frame:
 
-- `.is-in` is the entrance. It fires once, when about 40% of the page is in view. The headline lines rise, the image scales and fades in, and the copy follows a beat behind.
-- `.is-idle` is the ambient state after the entrance: a slow Ken Burns drift on the scene. Each page also has its own detail. The AEO steps light up in order. The Assistant chat plays through to a booking. The Receptionist call count moves while hold stays at 0. The Payoff gains appear one after another.
-- `.is-past` is the exit, toggled while a page is scrolled past. On the hero, the mousetrap lifts, rotates and fades. The other scenes push forward and fade.
+- **`.is-in` (entrance, once).** The headline sharpens from blur to solid black, word by word. The eyebrow, supporting text and CTA rise and fade in a beat behind it. The photo or panel starts washed out and develops to full contrast. On AEO, Assistant and Receptionist, the panel slides in from the right while the copy holds still.
+- **`.is-idle` (while resting).** A slow drift plays on the photography. Each capability page has one living detail: a blinking cursor in the AEO record, the typing indicator in the Assistant chat (the chat plays through to a booking), and the call waveform on Receptionist.
+- **`.is-past` (exit).** The page lifts, fades and recedes while the next page enters. On page 1, the mousetrap lifts, rotates and fades.
 
-Desktop uses `scroll-snap-type: y proximity`. `prefers-reduced-motion` gets a static, fully legible layout with no snapping or animation.
+Supporting motion: a scroll-progress line runs under the floating pill nav, cards lift slightly on hover, and the three gains on page 6 enter left to right. Everything animates `transform` and `opacity` only, except the headline blur. With `prefers-reduced-motion`, every element is visible at rest and nothing moves.
+
+### Page 6: "The desk clears"
+
+The page 6 piece is my proposal for the open item in spec §10. Five open admin items sit in a loose pile: a missed call, an unread message, a booking request, a quote follow-up and an after-hours enquiry. A status line counts "5 waiting". The items are handled one at a time: each gets a black tick and falls into a neat column. Then the column lifts away, leaving open space, the FrontDesk mark breathing slowly and "All caught up". The cycle repeats every ~16s. It is drawn in black, white and grey with soft shadows, and uses no footage.
 
 ## Open items
 
-- **Leads go nowhere yet.** Set `leadEndpoint` in `assets/js/config.js`. The payload shape is documented there. Until then, the intake completes for the visitor but only logs a console warning.
-- **Pricing, Ask FrontDesk and About** appear in the menu with a "Next" tag and no links. They need content.
-- **Page 6 image.** `office.jpg` was not provided, so the "quiet office" is built in CSS: a wall with the mark, a floor and a light sweep. Swap in the photo when it's available.
-- **Source assets.** The scene images are cropped from the 1456×819 mockups, so they look soft on large or retina screens. Replace them with full-resolution renders (`trap`, `atrium`, `aeo`, `assistant`, `receptionist`) at the same framing. The logo mark is redrawn as a vector (`assets/img/mark.svg`) from the mockup and should be checked against the master logo file.
-- **Glass vs flat.** This build follows the mockups. The glass lives in the scene imagery plus two small frosted "live" cards. All UI chrome stays flat black and white. To go fully flat, change `--glass` in `styles.css` to solid white and remove the `backdrop-filter`.
+- **Leads go nowhere yet.** Set `leadEndpoint` in `assets/js/config.js`; the payload shape is documented there. Until then, the intake completes for the visitor but only logs a console warning.
+- **Pricing is draft copy from spec §11 and needs review.** Only the Assistant ($149.99/month) has a price. AEO and Receptionist show "Pricing coming soon" with a Contact us button. The currency isn't stated anywhere. Pricing is linked in the menu because every Get Started button leads there.
+- **Ask FrontDesk and About** still show "Next" in the menu and have no pages.
+- **Source assets.** The scene images are cropped from the 1456×819 mockups, so they look soft on large or retina screens. Replace them with full-resolution renders at the same framing. The logo mark is redrawn as a vector (`assets/img/mark.svg`) and should be checked against the master file.
+- **Glass vs flat.** The UI is now flat, following spec §6: solid white cards, soft shadows, no blur, glow or gradients. The glass stays only inside the mockup photography.

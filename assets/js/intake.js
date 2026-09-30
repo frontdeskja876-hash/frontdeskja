@@ -1,5 +1,5 @@
 /*
- * FrontDesk JA — conversational "Get Started" intake.
+ * FrontDesk JA — conversational intake, opened from a package on the Pricing page.
  * One question at a time; ends with a summary of what was collected.
  * Submission target is window.FRONTDESK_CONFIG.leadEndpoint (see config.js).
  */
@@ -24,7 +24,12 @@
 
   var questions = [
     { key: 'name', label: 'Name',
-      ask: function () { return 'Hi, I’m FrontDesk. Let’s get you set up — what’s your name?'; },
+      ask: function () {
+        var name = pkg.split(' — ')[0];
+        return pkg && pkg !== GENERAL
+          ? 'Hi, I’m FrontDesk. Let’s get you set up with ' + name + '. What’s your name?'
+          : 'Hi, I’m FrontDesk. Let’s get you set up. What’s your name?';
+      },
       placeholder: 'Your name', autocomplete: 'name' },
     { key: 'business', label: 'Business',
       ask: function (a) { return 'Nice to meet you, ' + firstName(a.name) + '. What’s the name of your business?'; },
@@ -50,7 +55,8 @@
       validate: function (v) { return /^[+()\d\s.-]{7,}$/.test(v) ? '' : 'That number looks incomplete — add it again, or skip this one.'; } }
   ];
 
-  var answers, index, busy, lastFocus;
+  var GENERAL = 'General enquiry';
+  var answers, index, busy, lastFocus, pkg = GENERAL;
 
   function firstName(n) { return String(n || '').trim().split(/\s+/)[0]; }
 
@@ -81,7 +87,7 @@
   }
 
   function setProgress() {
-    progress.style.width = Math.round((index / questions.length) * 100) + '%';
+    progress.style.transform = 'scaleX(' + (index / questions.length).toFixed(3) + ')';
   }
 
   function renderChips(list) {
@@ -160,7 +166,7 @@
       var card = document.createElement('div');
       card.className = 'msg summary';
       var dl = document.createElement('dl');
-      questions.forEach(function (q) {
+      [{ key: 'package', label: 'Interested in' }].concat(questions).forEach(function (q) {
         var dt = document.createElement('dt');
         var dd = document.createElement('dd');
         dt.textContent = q.label;
@@ -189,7 +195,7 @@
     primary.type = 'button';
     primary.className = 'btn';
     if (ok) {
-      primary.textContent = 'Back to the site';
+      primary.textContent = 'Back to pricing';
       primary.addEventListener('click', close);
     } else {
       primary.textContent = 'Try again';
@@ -229,7 +235,7 @@
   }
 
   function start() {
-    answers = {};
+    answers = { package: pkg };
     index = 0;
     log.innerHTML = '';
     var done = root.querySelector('.intake__done');
@@ -237,11 +243,13 @@
     ask();
   }
 
-  function open() {
+  function open(chosen) {
     lastFocus = document.activeElement;
     root.hidden = false;
     document.body.classList.add('is-locked');
-    if (!answers || root.querySelector('.intake__done')) start();
+    var changed = (chosen || GENERAL) !== pkg;
+    pkg = chosen || GENERAL;
+    if (!answers || changed || root.querySelector('.intake__done')) start();
     else if (!busy) input.focus();
   }
 
@@ -279,6 +287,6 @@
     var trigger = e.target.closest('[data-intake]');
     if (!trigger) return;
     e.preventDefault();
-    open();
+    open(trigger.getAttribute('data-intake'));
   });
 })();

@@ -1,5 +1,5 @@
 /*
- * FrontDesk JA — page motion, menu and small "live" details.
+ * FrontDesk JA — page motion, navigation and the small "living" details.
  *
  * Each page moves through discrete states, never tied frame-by-frame to scroll:
  *   .is-in   entrance — added once when the page is mostly in view
@@ -11,18 +11,35 @@
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var pages = Array.prototype.slice.call(document.querySelectorAll('[data-page]'));
-  var ENTRANCE_MS = 1900;
+  var onIdle = {};
+
+  /* ---------- Headlines: wrap each word so it can sharpen in on its own beat ---------- */
+  document.querySelectorAll('.headline').forEach(function (h) {
+    var i = 0;
+    h.querySelectorAll('.ln > span').forEach(function (line) {
+      var words = line.textContent.trim().split(/\s+/);
+      line.textContent = '';
+      words.forEach(function (w, n) {
+        var s = document.createElement('span');
+        s.className = 'w';
+        s.style.setProperty('--i', i++);
+        s.textContent = w;
+        line.appendChild(s);
+        if (n < words.length - 1) line.appendChild(document.createTextNode(' '));
+      });
+    });
+    h.style.setProperty('--words', i);
+  });
 
   /* ---------- Page states ---------- */
-  var onEnter = {};
-
   function enter(page) {
-    if (page.classList.contains('is-in')) return;
+    if (page.classList.contains('is-in') && page.classList.contains('is-idle')) return;
     page.classList.add('is-in');
     setTimeout(function () {
+      if (page.classList.contains('is-idle')) return;
       page.classList.add('is-idle');
-      if (onEnter[page.id]) onEnter[page.id](page);
-    }, reduceMotion.matches ? 0 : ENTRANCE_MS - 900);
+      if (onIdle[page.id]) onIdle[page.id](page);
+    }, reduceMotion.matches ? 0 : 1100);
   }
 
   if ('IntersectionObserver' in window) {
@@ -48,11 +65,21 @@
     pages.forEach(enter);
   }
 
-  /* ---------- Top bar: solid backdrop once scrolled ---------- */
-  var topbar = document.querySelector('.topbar');
-  function onScroll() { topbar.classList.toggle('is-solid', window.scrollY > 40); }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  /* ---------- Scroll progress line under the nav ---------- */
+  var bar = document.querySelector('.progress span');
+  var ticking = false;
+  function paintProgress() {
+    ticking = false;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    if (bar) bar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+    document.body.classList.toggle('is-scrolled', window.scrollY > 24);
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(paintProgress); }
+  }, { passive: true });
+  window.addEventListener('resize', paintProgress);
+  paintProgress();
 
   /* ---------- Menu ---------- */
   var burger = document.querySelector('.burger');
@@ -72,33 +99,27 @@
       lastFocus.focus();
     }
   }
-  burger.addEventListener('click', function () { setMenu(menu.hidden); });
-  menu.addEventListener('click', function (e) {
-    if (e.target.closest('a[href^="#"]') || e.target.closest('[data-intake]')) setMenu(false);
-  });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && !menu.hidden) setMenu(false);
-  });
-
-  /* ---------- Page 3: steps light up in order ---------- */
-  onEnter.aeo = function (page) {
-    var steps = page.querySelectorAll('.steps li');
-    steps.forEach(function (li, i) {
-      setTimeout(function () { li.classList.add('is-lit'); }, reduceMotion.matches ? 0 : 500 + i * 700);
+  if (burger && menu) {
+    burger.addEventListener('click', function () { setMenu(menu.hidden); });
+    menu.addEventListener('click', function (e) {
+      if (e.target.closest('a[href]') || e.target.closest('[data-intake]')) setMenu(false);
     });
-  };
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !menu.hidden) setMenu(false);
+    });
+  }
 
-  /* ---------- Page 4: a live-feeling conversation that ends in a booking ---------- */
+  /* ---------- Page 4: a conversation that ends in a booking ---------- */
   var script = [
     ['them', 'Hi, my AC isn’t cooling. Can someone take a look?'],
     ['us', 'I can help with that. What’s the service address?'],
     ['them', '14 Hope Road, Kingston 10'],
-    ['us', 'Thanks. We have a technician free tomorrow at 10:00 AM or 2:00 PM. Which works?'],
+    ['us', 'Thanks. A technician is free tomorrow at 10:00 AM or 2:00 PM. Which works?'],
     ['them', '10 works'],
-    ['booked', '✓ Booked — AC repair, tomorrow 10:00 AM']
+    ['booked', 'Booked: AC repair, tomorrow 10:00 AM']
   ];
 
-  onEnter.assistant = function (page) {
+  onIdle.assistant = function (page) {
     var body = page.querySelector('.live-chat__body');
     if (!body) return;
 
@@ -116,38 +137,72 @@
 
     var i = 0;
     function step() {
-      if (!document.body.contains(body)) return;
       if (i === script.length) {
-        setTimeout(function () { body.innerHTML = ''; i = 0; step(); }, 4200);
+        setTimeout(function () { body.innerHTML = ''; i = 0; step(); }, 4500);
         return;
       }
       var s = script[i++];
-      var wait = s[0] === 'us' ? 900 : 0;
       var typing = null;
-      if (wait) { typing = bubble('us bubble--typing'); typing.innerHTML = '<i></i><i></i><i></i>'; body.appendChild(typing); }
+      if (s[0] === 'us') {
+        typing = bubble('us bubble--typing');
+        typing.innerHTML = '<i></i><i></i><i></i>';
+        body.appendChild(typing);
+      }
       setTimeout(function () {
         if (typing) typing.remove();
         body.appendChild(bubble(s[0], s[1]));
-        while (body.children.length > 5) body.removeChild(body.firstChild);
-        setTimeout(step, s[0] === 'them' ? 700 : 1500);
-      }, wait);
+        while (body.children.length > 4) body.removeChild(body.firstChild);
+        setTimeout(step, s[0] === 'them' ? 700 : 1600);
+      }, typing ? 1400 : 0);
     }
     step();
   };
 
-  /* ---------- Page 5: call count breathes, hold count never moves ---------- */
-  onEnter.receptionist = function (page) {
-    var el = page.querySelector('[data-calls]');
-    if (!el || reduceMotion.matches) return;
-    var n = 6;
-    setInterval(function () {
-      n += Math.random() < 0.5 ? -1 : 1;
-      n = Math.max(4, Math.min(9, n));
-      el.textContent = n;
-    }, 2600);
+  /* ---------- Page 6: the desk clears ----------
+     Five open admin items sit in a loose pile. One by one they are handled
+     (tick, then they fall into a neat column). Then the column lifts away,
+     leaving open space and the mark. Loops slowly. */
+  onIdle.payoff = function (page) {
+    var settle = page.querySelector('.settle');
+    if (!settle) return;
+    var tiles = settle.querySelectorAll('.settle__tiles li');
+    var status = settle.querySelector('[data-settle-status]');
+    var total = tiles.length;
+
+    function setStatus(text) { if (status) status.textContent = text; }
+
+    if (reduceMotion.matches) {
+      settle.classList.add('is-neat');
+      tiles.forEach(function (t) { t.classList.add('is-done'); });
+      setStatus(total + ' handled · 0 waiting');
+      return;
+    }
+
+    var timers = [];
+    function at(ms, fn) { timers.push(setTimeout(fn, ms)); }
+
+    function cycle() {
+      timers.forEach(clearTimeout); timers = [];
+      settle.classList.remove('is-neat', 'is-clear');
+      tiles.forEach(function (t) { t.classList.remove('is-done'); });
+      settle.classList.add('is-pile');
+      setStatus(total + ' waiting');
+
+      var t0 = 1800;
+      tiles.forEach(function (tile, n) {
+        at(t0 + n * 1100, function () {
+          tile.classList.add('is-done');
+          setStatus((n + 1) + ' handled · ' + (total - n - 1) + ' waiting');
+        });
+      });
+      var tNeat = t0 + total * 1100 + 300;
+      at(tNeat, function () { settle.classList.remove('is-pile'); settle.classList.add('is-neat'); });
+      at(tNeat + 2600, function () { settle.classList.add('is-clear'); setStatus('All caught up'); });
+      at(tNeat + 2600 + 6000, cycle);
+    }
+    cycle();
   };
 
   /* ---------- misc ---------- */
-  var year = document.querySelector('[data-year]');
-  if (year) year.textContent = new Date().getFullYear();
+  document.querySelectorAll('[data-year]').forEach(function (y) { y.textContent = new Date().getFullYear(); });
 })();
