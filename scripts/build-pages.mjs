@@ -263,10 +263,8 @@ const about = page({
       <div class="layers-motif" aria-hidden="true"><i style="--n:0"></i><i style="--n:1"></i><i style="--n:2"></i><i style="--n:3"></i></div>
     </section>
 
-    <!-- Motion 2 (ambient): the three "less time" lines float in one after another;
-         "more time" lands last, with a bigger, slower settle. -->
+    <!-- Motion 2 (ambient): the three "less time" lines float in one after another. -->
     <section class="about__manifesto" aria-label="Why we build">
-      <p class="about__big">We are not building AI for the sake of adding AI to a business.</p>
       <p class="about__big">We are building technology that takes useful work off the business owner’s plate.</p>
       <div class="about__release" data-reveal>
       <ul class="about__less">
@@ -274,7 +272,6 @@ const about = page({
         <li>Less time managing repetitive front-desk tasks.</li>
         <li>Less time worrying about whether customers can find or reach the business.</li>
       </ul>
-      <p class="about__more">More time doing the work that actually moves the business forward.</p>
       </div>
     </section>
 

@@ -79,7 +79,7 @@ Only three passages move; everything else on the About page is static type. Each
 
 - **"The modern front desk" (interactive):** a simple desk-and-phone outline dissolves. Four floating shapes, one per verb in the sentence (discovered, available, respond, real work), drift in at different depths and keep floating. Each follows the cursor with a small shift and tilt, and outlines lime on hover.
 - **"Our first layer…":** a stack of planes rises beside the text and drifts slowly, each plane at its own speed.
-- **"Less time… / More time…":** the three "less time" lines float in one after another. "More time" lands last, with a bigger, slower settle.
+- **"Less time…":** the three "less time" lines float in one after another. (The "More time…" line was cut from the final copy.)
 
 All of this is monochrome apart from the lime hover. With reduced motion, everything shows in its final state.
 

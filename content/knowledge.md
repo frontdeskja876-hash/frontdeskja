@@ -19,11 +19,9 @@ belong here. Nothing internal or confidential.
 - The first layer is AEO: before a customer can contact a business, they have to find
   it. From there, FrontDesk helps businesses stay available when customers reach out,
   through digital conversations, bookings, and voice.
-- "We are not building AI for the sake of adding AI to a business. We are building
-  technology that takes useful work off the business owner's plate": less time answering
-  the same questions, less time on repetitive front-desk tasks, less time worrying
-  whether customers can find or reach the business; more time doing the work that
-  actually moves the business forward.
+- "We are building technology that takes useful work off the business owner's plate":
+  less time answering the same questions, less time managing repetitive front-desk
+  tasks, less time worrying about whether customers can find or reach the business.
 - FrontDesk JA uses its own product: the Ask FrontDesk chat on this website is a live
   instance of the FrontDesk Assistant, configured with FrontDesk JA's own public business
   knowledge.
