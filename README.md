@@ -63,10 +63,11 @@ The hub, article and About pages are generated files; don't edit them by hand. T
 - **Stage, not scroll (home page):** the pages are slides on a fixed stage. One wheel tick, trackpad swipe, arrow key or touch swipe cuts *instantly* to the next or previous page. The outgoing page plays its exit on top while the new page builds itself in underneath. The viewport never travels, nothing tracks a scroll offset, and there is no progress indicator.
 - **Input lock:** input is ignored until a switch settles (1.3s) and the wheel has been quiet, so a long swipe or a double flick moves exactly one page.
 - **Navigation:** menu links, `#aeo`-style deep links and Home/End all cut straight to a page.
-- **Entrance (on arrival, every arrival):** three depth layers settle in turn:
-  1. The grey back plate.
-  2. The photo, which develops from washed-out and, on pillar pages, slides in from the side.
-  3. The headline, sharpening from blur word by word. The supporting text follows.
+- **Entrance (on arrival, every arrival):** depth layers settle on their own beats:
+  1. The photo, which develops from washed-out and, on pillar pages, slides in from the side.
+  2. The headline, sharpening from blur word by word. The supporting text follows.
+  3. The pillar card, last.
+- **Images are decoded before a page can appear:** every story image loads eagerly and is decoded up front, and a cut waits for the target page's images (3s ceiling), so a half-loaded image box never flashes on screen. Image containers are sized by CSS, not by the image.
 - **Pillar card:** it swings in from a 3D tilt at 0.84 scale. Once settled, it tilts slightly toward the mouse.
 - **Idle:** a slow drift on photos, plus one living detail per pillar: the blinking cursor, the typing dots, the waveform and the page 6 cycle.
 - **Exit:** cards lift toward the viewer and fade, photos recede, and on page 1 the mousetrap lifts and rotates away.

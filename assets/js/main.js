@@ -72,6 +72,28 @@
     page.classList.remove('no-anim');
   }
 
+  /* ---------- Images: decoded before their page can appear ----------
+     Every story image starts loading and decoding up front. A page only becomes
+     current once its images are fully decoded, so the cut never shows an empty or
+     half-painted image box. (A 3s ceiling keeps a failed image from freezing the deck.) */
+  var DECODE_TIMEOUT = 3000;
+  var decoded = stops.map(function () { return false; });
+  var ready = stops.map(function (s, i) {
+    var imgs = Array.prototype.slice.call(s.querySelectorAll('img'));
+    return Promise.all(imgs.map(function (img) {
+      img.loading = 'eager';
+      if (img.decode) return img.decode().catch(function () {});
+      return new Promise(function (res) { if (img.complete) res(); else { img.onload = img.onerror = res; } });
+    })).then(function () { decoded[i] = true; });
+  });
+  function whenReady(i, fn) {
+    if (decoded[i]) { fn(); return; }
+    var done = false;
+    var run = function () { if (!done) { done = true; fn(); } };
+    ready[i].then(run);
+    setTimeout(run, DECODE_TIMEOUT);
+  }
+
   /* ---------- Stage (story page) ---------- */
   var staged = false;
   var current = 0;
@@ -110,7 +132,8 @@
         if (i !== current) reset(s);
       });
       window.scrollTo(0, 0);
-      requestAnimationFrame(function () { enter(stops[current]); });
+      var first = current;
+      whenReady(first, function () { requestAnimationFrame(function () { if (current === first) enter(stops[first]); }); });
       document.body.classList.toggle('is-scrolled', current > 0);
     } else {
       stops.forEach(function (s) { s.classList.remove('is-current', 'is-leaving'); s.removeAttribute('aria-hidden'); });
@@ -122,6 +145,15 @@
     index = Math.max(0, Math.min(stops.length - 1, index));
     if (!staged || index === current) return;
     if (locked && !(opts && opts.force)) return;
+    locked = true;
+    lockUntil = Date.now() + SWITCH_LOCK;
+    var target = index;
+    // never cut to a page whose image hasn't finished decoding
+    whenReady(target, function () { cut(target, opts); });
+  }
+
+  function cut(index, opts) {
+    if (index === current) { release(); return; }
     var from = stops[current];
     var to = stops[index];
     locked = true;
