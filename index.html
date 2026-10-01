@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="story">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,7 +19,9 @@
   <link rel="stylesheet" href="assets/css/styles.css">
 
   <script>document.documentElement.classList.add('js');</script>
+  <script src="assets/js/config.js" defer></script>
   <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/ask.js" defer></script>
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -82,7 +84,7 @@
           </ul>
         </li>
         <li><a class="menu__link" href="pricing.html">Pricing</a></li>
-        <li><span class="menu__link is-soon" aria-disabled="true">Ask FrontDesk <i class="tag">Next</i></span></li>
+        <li><a class="menu__link" href="ask-frontdesk.html">Ask FrontDesk</a></li>
         <li><span class="menu__link is-soon" aria-disabled="true">About <i class="tag">Next</i></span></li>
       </ol>
     </nav>
@@ -142,7 +144,7 @@
     </section>
 
     <!-- 3 — AEO -->
-    <section class="page page--cap page--aeo" id="aeo" data-page aria-labelledby="h-aeo">
+    <section class="page page--cap page--pillar page--aeo" id="aeo" data-page aria-labelledby="h-aeo">
       <div class="page__copy">
         <p class="eyebrow r">AEO — Be found</p>
         <h2 class="headline headline--wide" id="h-aeo">
@@ -158,7 +160,7 @@
           <img class="visual__img" src="assets/img/aeo.webp" width="901" height="734" loading="lazy"
                alt="A business record for ABC Plumbing in Kingston, Jamaica, being understood by AI and surfaced as a recommendation for “Who can fix my AC in Kingston?”">
         </div>
-        <div class="card-float record" aria-hidden="true">
+        <div class="card-float record" data-tilt aria-hidden="true">
           <p class="record__title"><svg><use href="#fd-mark"/></svg>Business record</p>
           <dl>
             <dt>Business</dt><dd>ABC Plumbing</dd>
@@ -171,7 +173,7 @@
     </section>
 
     <!-- 4 — ASSISTANT -->
-    <section class="page page--cap page--assistant" id="assistant" data-page aria-labelledby="h-assistant">
+    <section class="page page--cap page--pillar page--assistant" id="assistant" data-page aria-labelledby="h-assistant">
       <div class="page__copy">
         <p class="eyebrow r">Assistant — Be available</p>
         <h2 class="headline headline--semi" id="h-assistant">
@@ -187,7 +189,7 @@
           <img class="visual__img" src="assets/img/assistant.webp" width="871" height="734" loading="lazy"
                alt="A businessman walks past panels showing customer conversations handled by the FrontDesk AI Assistant.">
         </div>
-        <div class="card-float live-chat" aria-hidden="true">
+        <div class="card-float live-chat" data-tilt aria-hidden="true">
           <div class="live-chat__head"><svg><use href="#fd-mark"/></svg><span>ABC Plumbing</span><i>Front desk</i></div>
           <div class="live-chat__body"></div>
         </div>
@@ -195,7 +197,7 @@
     </section>
 
     <!-- 5 — RECEPTIONIST -->
-    <section class="page page--cap page--receptionist" id="receptionist" data-page aria-labelledby="h-receptionist">
+    <section class="page page--cap page--pillar page--receptionist" id="receptionist" data-page aria-labelledby="h-receptionist">
       <div class="page__copy">
         <p class="eyebrow r">Receptionist</p>
         <h2 class="headline headline--condensed" id="h-receptionist">
@@ -211,7 +213,7 @@
           <img class="visual__img" src="assets/img/receptionist.webp" width="996" height="734" loading="lazy"
                alt="Six customers calling at once, each connected to the FrontDesk AI Receptionist, none on hold.">
         </div>
-        <div class="card-float live-calls" aria-hidden="true">
+        <div class="card-float live-calls" data-tilt aria-hidden="true">
           <span class="live-calls__dot"></span>
           <span><b>6</b> calls active</span>
           <span class="live-calls__sep"></span>
@@ -222,7 +224,7 @@
     </section>
 
     <!-- 6 — PAYOFF -->
-    <section class="page page--payoff" id="payoff" data-page aria-labelledby="h-payoff">
+    <section class="page page--pillar page--payoff" id="payoff" data-page aria-labelledby="h-payoff">
       <div class="page__copy">
         <p class="eyebrow r">The work that matters</p>
         <h2 class="headline headline--wide" id="h-payoff">
@@ -243,7 +245,7 @@
            then lifts away, leaving open space and the mark. -->
       <figure class="visual visual--settle" aria-hidden="true">
         <div class="visual__motion">
-          <div class="settle">
+          <div class="settle" data-tilt>
             <div class="settle__mark"><svg><use href="#fd-mark"/></svg></div>
             <ul class="settle__tiles">
               <li style="--i:0; --mx:-16; --my:-24; --mr:-7deg"><svg><use href="#i-phone"/></svg><span><b>Missed call</b><em>New customer · 2:14 PM</em></span><i class="tick"></i></li>
@@ -278,6 +280,7 @@
           <a href="#assistant">Assistant</a>
           <a href="#receptionist">Receptionist</a>
           <a href="pricing.html">Pricing</a>
+          <a href="ask-frontdesk.html">Ask FrontDesk</a>
         </nav>
         <p class="footer__small">© <span data-year>2026</span> FrontDesk JA. The front desk of the future.</p>
       </div>

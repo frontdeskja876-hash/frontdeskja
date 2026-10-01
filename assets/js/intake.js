@@ -27,8 +27,8 @@
       ask: function () {
         var name = pkg.split(' — ')[0];
         return pkg && pkg !== GENERAL
-          ? 'Hi, I’m FrontDesk. Let’s get you set up with ' + name + '. What’s your name?'
-          : 'Hi, I’m FrontDesk. Let’s get you set up. What’s your name?';
+          ? 'Let’s get you set up with ' + name + '. What’s your name?'
+          : 'Let’s get you set up. What’s your name?';
       },
       placeholder: 'Your name', autocomplete: 'name' },
     { key: 'business', label: 'Business',
@@ -249,6 +249,8 @@
     document.body.classList.add('is-locked');
     var changed = (chosen || GENERAL) !== pkg;
     pkg = chosen || GENERAL;
+    var status = root.querySelector('.intake__status');
+    if (status) status.textContent = pkg;
     if (!answers || changed || root.querySelector('.intake__done')) start();
     else if (!busy) input.focus();
   }

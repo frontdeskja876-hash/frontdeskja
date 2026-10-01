@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pricing — FrontDesk JA</title>
-  <meta name="description" content="FrontDesk JA pricing. The AI Assistant is $149.99/month with the Assistant Office included. AEO and Receptionist pricing is coming soon.">
+  <meta name="description" content="FrontDesk JA pricing: AEO $49.99/month, Assistant $149.99/month, Receptionist $199.99/month. No setup fee.">
   <meta name="theme-color" content="#ffffff">
   <link rel="icon" href="assets/img/mark.svg" type="image/svg+xml">
 
@@ -16,6 +16,7 @@
   <script src="assets/js/config.js" defer></script>
   <script src="assets/js/main.js" defer></script>
   <script src="assets/js/intake.js" defer></script>
+  <script src="assets/js/ask.js" defer></script>
 </head>
 <body class="is-subpage">
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -47,7 +48,7 @@
       </button>
     </div>
     <div class="pill pill--actions">
-      <button class="btn btn--sm" type="button" data-intake="General enquiry">Talk to us <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      <a class="btn btn--sm" href="#plans">Get Started <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
     </div>
     <div class="progress" aria-hidden="true"><span></span></div>
   </header>
@@ -65,12 +66,12 @@
           </ul>
         </li>
         <li><a class="menu__link" href="pricing.html" aria-current="page">Pricing</a></li>
-        <li><span class="menu__link is-soon" aria-disabled="true">Ask FrontDesk <i class="tag">Next</i></span></li>
+        <li><a class="menu__link" href="ask-frontdesk.html">Ask FrontDesk</a></li>
         <li><span class="menu__link is-soon" aria-disabled="true">About <i class="tag">Next</i></span></li>
       </ol>
     </nav>
     <div class="menu__foot">
-      <button class="btn" type="button" data-intake="General enquiry">Talk to us <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      <a class="btn" href="#plans">Get Started <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
       <p>The front desk of the future.</p>
     </div>
   </div>
@@ -79,55 +80,87 @@
     <section class="pricing__intro is-in" data-page aria-labelledby="h-pricing">
       <p class="eyebrow r">Pricing</p>
       <h1 class="headline headline--wide" id="h-pricing">
-        <span class="ln"><span>Start with</span></span>
-        <span class="ln"><span>the Assistant.</span></span>
+        <span class="ln"><span>One front desk.</span></span>
+        <span class="ln ln--light"><span>Three ways in.</span></span>
       </h1>
-      <p class="body r">One front desk, built in stages. The Assistant is available now. AEO and Receptionist pricing is being finalised. Tell us what you need and we’ll follow up.</p>
+      <p class="body r">Each package is a standalone monthly price, with no setup or deployment fee. Pick what your business needs now and add more later.</p>
     </section>
 
-    <section class="plans" aria-label="Packages">
-      <article class="plan plan--main lift">
+    <section class="plans" id="plans" aria-label="Packages">
+      <article class="plan plan--aeo lift">
         <header class="plan__head">
-          <p class="plan__kicker">Assistant — Be available</p>
+          <p class="plan__kicker">Be found</p>
+          <h2 class="plan__name">AEO</h2>
+          <p class="plan__price"><b>$49.99</b><span>/month</span></p>
+        </header>
+        <p class="plan__pitch"><strong>Be found.</strong> Your customers are increasingly using search and AI to decide who to call, who to visit, and who to trust. FrontDesk helps your business become easier for those systems to understand, discover, and appropriately represent.</p>
+        <ol class="plan__loop" aria-label="How AEO works, on repeat">
+          <li>Scan</li><li>Understand</li><li>Identify</li><li>Fix</li><li>Validate</li><li>Publish</li><li>Measure</li><li>Repeat</li>
+        </ol>
+        <ul class="plan__list">
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span><b>Scan</b> your website, business information, services, locations, content and question coverage</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span><b>Understand</b> your business: what you do, who you serve, what customers ask, and where</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span><b>Identify</b> specific gaps, explained by what’s missing and why it matters</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span><b>Generate the fix</b>: copy, FAQs, service-page recommendations, structured-data fixes</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span><b>Validate</b> against your real business facts. AEO never invents services, prices or claims</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span><b>Publish</b> approved changes where you authorize access, or hand them to you or your developer</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span><b>Measure</b> visibility, mentions and citations over time, then find the next opportunity</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Works alongside your existing SEO</span></li>
+        </ul>
+        <p class="plan__fine">No one can guarantee how Google, ChatGPT, Gemini or any AI system ranks or recommends a business. AEO makes your business easier for them to understand and represent accurately.</p>
+        <button class="btn plan__cta" type="button" data-intake="AEO — $49.99/month">Get started with AEO <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      </article>
+
+      <article class="plan plan--assistant lift">
+        <header class="plan__head">
+          <p class="plan__kicker">Be available</p>
           <h2 class="plan__name">Assistant</h2>
           <p class="plan__price"><b>$149.99</b><span>/month</span></p>
         </header>
         <p class="plan__pitch"><strong>Your business’s AI digital front desk.</strong> Available 24/7. Talking to customers, answering business questions, collecting customer information, qualifying requests, and helping customers book.</p>
         <ul class="plan__list">
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg>Business-specific knowledge: it learns your business, not a generic script</li>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg>24/7 customer conversations</li>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg>Lead and request qualification</li>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg>Structured information collection</li>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg>Booking</li>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg>Configurable business rules</li>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg>Escalation to a person when needed</li>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg>Unlimited website conversations from your customers</li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Configured for your business: it learns your business, not a generic script</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Website conversations, with WhatsApp where configured</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>24/7 customer conversations, unlimited from your customers’ side</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Answers from your approved business information</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Lead and request qualification</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Structured customer-information capture</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Booking: connect your calendar or booking system, or use FrontDesk’s own</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Configurable business rules</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Escalation to a person when needed</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Testing and deployment before go-live</span></li>
         </ul>
         <div class="plan__office">
           <p class="plan__office-title">Assistant Office included</p>
-          <p>Your portal for monitoring and managing the Assistant: conversations, leads, bookings, reports and settings. No separate charge.</p>
+          <p>Your portal for the Assistant: status, conversations, inquiries, leads, bookings, escalations, captured customer info, usage, knowledge, behavior, booking and channel settings, reports and billing. No separate charge.</p>
         </div>
+        <p class="plan__try">Want to see it work? The <button class="linklike" type="button" data-ask>Ask FrontDesk</button> chat on this site is a live Assistant.</p>
         <button class="btn plan__cta" type="button" data-intake="Assistant — $149.99/month">Get started with Assistant <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
       </article>
 
-      <article class="plan lift">
+      <article class="plan plan--receptionist lift">
         <header class="plan__head">
-          <p class="plan__kicker">AEO — Be found</p>
-          <h2 class="plan__name">AEO</h2>
-          <p class="plan__price plan__price--soon">Pricing coming soon</p>
-        </header>
-        <p class="plan__pitch">We structure your business so AI understands what you do, where you do it, and who you serve, so the right customers can find you and choose you.</p>
-        <button class="btn btn--ghost plan__cta" type="button" data-intake="AEO — pricing on request">Contact us <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
-      </article>
-
-      <article class="plan lift">
-        <header class="plan__head">
-          <p class="plan__kicker">Receptionist — No hold time</p>
+          <p class="plan__kicker">No hold time</p>
           <h2 class="plan__name">Receptionist</h2>
-          <p class="plan__price plan__price--soon">Pricing coming soon</p>
+          <p class="plan__price"><b>$199.99</b><span>/month</span></p>
         </header>
-        <p class="plan__pitch">Answers your business calls, talks to multiple customers at the same time, handles their questions, captures their information, and moves them toward booking, 24/7.</p>
-        <button class="btn btn--ghost plan__cta" type="button" data-intake="Receptionist — pricing on request">Contact us <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <p class="plan__pitch"><strong>No hold time, ever.</strong> Every caller gets answered, simultaneously, without waiting in a queue.</p>
+        <p class="plan__plus">Everything in Assistant, plus live inbound voice:</p>
+        <ul class="plan__list">
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Inbound call answering, configured for your business</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Caller understanding and qualification</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Common question handling</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Call routing</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Escalation and warm transfer to a person</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Simultaneous calls: no busy signal, no voicemail dead end</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>Testing and deployment before go-live</span></li>
+        </ul>
+        <p class="plan__fine">Inbound calls only (no outbound dialing). Calls last up to 15 minutes.</p>
+        <div class="plan__office">
+          <p class="plan__office-title">Receptionist Office included</p>
+          <p>A voice-centered portal: live activity, calls and call records, reports, voice-minute usage, bookings, escalations, captured customer info, performance, configuration and billing. No separate charge.</p>
+        </div>
+        <button class="btn plan__cta" type="button" data-intake="Receptionist — $199.99/month">Get started with Receptionist <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
       </article>
     </section>
   </main>
@@ -147,6 +180,7 @@
         <a href="index.html#assistant">Assistant</a>
         <a href="index.html#receptionist">Receptionist</a>
         <a href="pricing.html" aria-current="page">Pricing</a>
+        <a href="ask-frontdesk.html">Ask FrontDesk</a>
       </nav>
       <p class="footer__small">© <span data-year>2026</span> FrontDesk JA. The front desk of the future.</p>
     </div>
@@ -159,7 +193,7 @@
         <div class="intake__who">
           <span class="avatar"><svg aria-hidden="true"><use href="#fd-mark"/></svg></span>
           <div>
-            <p class="intake__title" id="intake-title">FrontDesk JA</p>
+            <p class="intake__title" id="intake-title">Get started</p>
             <p class="intake__status">Here to help</p>
           </div>
         </div>

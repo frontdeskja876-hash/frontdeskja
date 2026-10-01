@@ -1,0 +1,10 @@
+{
+  "name": "frontdeskja-site",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server.mjs",
+    "build:ask": "node scripts/build-ask.mjs"
+  }
+}

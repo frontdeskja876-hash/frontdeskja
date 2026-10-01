@@ -1,0 +1,71 @@
+{
+  "_note": "Ask FrontDesk articles. Source of truth for the hub pages (scripts/build-ask.mjs) and for the Ask FrontDesk Assistant's knowledge (server/knowledge.mjs). After editing, run: npm run build:ask",
+  "pillars": [
+    { "id": "aeo", "name": "AEO", "tagline": "Be found", "intro": "How AI systems find, understand and recommend businesses, and what to get in order." },
+    { "id": "assistant", "name": "Assistant", "tagline": "Be available", "intro": "What separates a real digital front desk from a scripted chatbot." },
+    { "id": "receptionist", "name": "Receptionist", "tagline": "No hold time", "intro": "Missed calls, busy lines, and answering every caller at once." },
+    { "id": "general", "name": "General", "tagline": "AI and business", "intro": "AI, automation and business technology beyond a single product." }
+  ],
+  "articles": [
+    {
+      "slug": "what-aeo-means-for-a-small-business",
+      "pillar": "aeo",
+      "category": "AEO",
+      "title": "What AEO actually means for a small business",
+      "summary": "Being found used to mean ranking on Google. Now AI systems stand between customers and their decision, and they need a business to be legible.",
+      "paragraphs": [
+        "For twenty years, being “found” online meant one thing: ranking on Google. That’s changing. A growing share of how people find a business now runs through AI — asking an assistant for a recommendation, a search engine’s AI overview summarizing options before a single blue link appears, a voice assistant reading out “the best-rated place nearby.” None of that works the way traditional SEO does.",
+        "AEO — Answer Engine Optimization — is the practice of structuring a business’s information so AI systems can find it, understand it correctly, and recommend it confidently. That means consistent, accurate business information across the places AI systems pull from; clear, structured descriptions of what a business actually does and offers (AI tends to skip over vague marketing language); and enough verifiable detail — hours, location, services, policies — that an AI system trusts it as a source rather than passing over it.",
+        "The businesses losing out here usually aren’t doing anything wrong by old standards. Their website reads fine to a person. But it’s thin, inconsistent, or unstructured in ways that make it hard for an AI system to extract a confident answer from — so it quietly recommends a competitor instead. AEO doesn’t replace a good website or good reviews; it’s what makes sure the business is actually legible to the systems increasingly standing between customers and their decision."
+      ]
+    },
+    {
+      "slug": "getting-your-business-ready-for-ai-driven-search",
+      "pillar": "aeo",
+      "category": "Automation",
+      "title": "Getting your business ready for AI-driven search",
+      "summary": "Search is shifting from scanning links to asking for answers. A few practical, low-effort steps put a business in a better position.",
+      "paragraphs": [
+        "Search behavior is shifting from “type a query, scan ten blue links” to “ask a question, get an answer.” That shift changes what a business needs to have in order, and most haven’t started.",
+        "A few practical starting points: make sure business information (hours, location, services, pricing where relevant) is accurate and says the same thing everywhere it appears — AI systems weigh consistency heavily, and conflicting information across listings undermines confidence in all of them. Write about what the business actually does in plain, specific language, rather than marketing phrases that sound good to a person but give an AI system nothing concrete to extract. And keep that information current — a business’s biggest AI-visibility risk is often just staleness, not absence.",
+        "None of this requires a redesign or a big technical project. It’s closer to good recordkeeping than software engineering. But it compounds: a business that’s easy for an AI system to understand today is positioned to be recommended by it tomorrow, while slower-moving competitors are still being evaluated by a search algorithm that’s mattering less every year."
+      ]
+    },
+    {
+      "slug": "chatbot-vs-digital-front-desk",
+      "pillar": "assistant",
+      "category": "AI + business",
+      "title": "The difference between a chatbot and a digital front desk",
+      "summary": "A chatbot answers from a script and stalls at its edge. A digital front desk knows the business, qualifies requests and hands off with context.",
+      "paragraphs": [
+        "“We have a chatbot” and “we have a digital front desk” sound similar and aren’t. A chatbot answers questions from a script. It’s useful for simple, repetitive queries — store hours, a shipping policy — and it tends to stall the moment a customer asks something it wasn’t scripted for.",
+        "A digital front desk is closer to what a good human receptionist actually does: it knows the business specifically (not a generic script), it can hold a real conversation rather than pattern-match to the nearest canned answer, it collects the right information from a customer (not just answers questions but qualifies what they need), and it can move someone toward an actual outcome — a booking, a structured request, a handoff to a person — rather than ending the interaction with “let me know if you have more questions.”",
+        "The practical test: when a chatbot hits the edge of its script, the conversation dies. When a digital front desk hits something it can’t resolve, it escalates to a person with the context already collected — the customer doesn’t have to start over. That’s the gap between a novelty widget on a website and something a business can actually run customer interactions through."
+      ]
+    },
+    {
+      "slug": "what-happens-to-a-missed-call",
+      "pillar": "receptionist",
+      "category": "Business technology",
+      "title": "What happens to a missed call, and what it costs",
+      "summary": "Businesses track the calls they answer, rarely the ones they miss. The missed ones are often the most valuable.",
+      "paragraphs": [
+        "Most businesses track the calls they answer. Almost none systematically track the ones they miss — which makes missed calls one of the easiest costs in a business to underestimate.",
+        "A missed call isn’t neutral. The caller doesn’t typically wait and call back later; a large share simply calls the next business on the list. For a service business, that’s a lost job. For a retail or hospitality business, that’s a lost booking or a lost sale that never shows up in any report, because it was never captured in the first place — there’s no line item for “the customer who tried to reach us and didn’t.”",
+        "The calls most likely to be missed are often the highest-value ones: outside business hours, during a peak rush when staff are already stretched, or when everyone is already on another call. Those are exactly the moments a business most needs to be reachable, and exactly the moments it’s structurally least likely to be. The fix isn’t “hire more staff to sit by the phone” — for most small and mid-size businesses that’s not economical. It’s making sure every call gets a response, even when no one is free to personally take it."
+      ]
+    },
+    {
+      "slug": "how-an-ai-receptionist-handles-more-than-one-caller",
+      "pillar": "receptionist",
+      "category": "AI agents",
+      "title": "How an AI receptionist handles more than one caller at once",
+      "summary": "A phone line takes one call at a time. An AI receptionist removes that bottleneck exactly when call volume spikes.",
+      "paragraphs": [
+        "A single phone line has a hard limit: one call at a time. If a second customer calls while the first is still being helped, they hit a busy signal, voicemail, or an endless ring — and, as with any missed call, they often just call somewhere else.",
+        "An AI receptionist doesn’t have that constraint the same way a person does. It can carry on multiple simultaneous conversations, so a second, third, or fourth caller gets answered immediately rather than queued behind whoever called first. Each conversation runs independently — gathering the caller’s information, understanding what they need, and either resolving it directly or handing it off with full context to a person, the same way it would if it were the only call happening.",
+        "This matters most exactly when call volume spikes — a promotion, a busy season, a rush hour — which is also when a business is least able to add human staff on short notice. The result isn’t “replacing the front desk,” it’s removing the one-caller-at-a-time bottleneck that a phone line otherwise imposes on a growing business."
+      ]
+    }
+  ]
+}
