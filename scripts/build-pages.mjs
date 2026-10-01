@@ -234,7 +234,7 @@ const about = page({
       <ol class="about__three">
         <li><a class="about__pillar lift" href="index.html#aeo"><h2>Be found.</h2><p>Help your business become easier for modern search and AI systems to understand and discover.</p></a></li>
         <li><a class="about__pillar lift" href="index.html#assistant"><h2>Be available.</h2><p>Give customers a digital front desk that can answer questions, understand requests, assist with bookings, and know when a real person should step in.</p></a></li>
-        <li><a class="about__pillar lift" href="index.html#receptionist"><h2>Get the work.</h2><p>Give your business an AI voice front desk that can handle customer conversations without putting people on hold or making them wait for a response.</p></a></li>
+        <li><a class="about__pillar lift" href="index.html#receptionist"><h2>No hold time.</h2><p>Give your business an AI voice front desk that can handle customer conversations without putting people on hold or making them wait for a response.</p></a></li>
       </ol>
     </section>
 
@@ -256,7 +256,7 @@ const about = page({
 
     <section class="about__close" aria-label="FrontDesk JA">
       <p class="about__sign">FrontDesk JA</p>
-      <p class="about__tag"><span>Be found.</span> <span>Be available.</span> <span>Get the work.</span></p>
+      <p class="about__tag"><span>Be found.</span> <span>Be available.</span> <span>No hold time.</span></p>
       <a class="btn" href="pricing.html">Get Started <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
     </section>
   </main>`

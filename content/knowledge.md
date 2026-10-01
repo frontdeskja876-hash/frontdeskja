@@ -10,12 +10,12 @@ belong here. Nothing internal or confidential.
   capabilities that help businesses handle the work that happens before, between, and
   around the job.
 - Tagline: "Empowering the world with AI." Headline idea: "The front desk of the future."
-  Closing line: "Be found. Be available. Get the work."
+  Closing line: "Be found. Be available. No hold time."
 - Belief: the modern front desk is no longer limited to a person behind a desk or
   answering a phone. It is the system that helps a business get discovered, stay
   available, respond to customers, and move conversations toward real work.
-- Three capabilities: Be found (AEO), Be available (Assistant), Get the work / No hold
-  time (Receptionist, an AI voice front desk).
+- Three capabilities: Be found (AEO), Be available (Assistant), No hold time (Receptionist,
+  an AI voice front desk).
 - The first layer is AEO: before a customer can contact a business, they have to find
   it. From there, FrontDesk helps businesses stay available when customers reach out,
   through digital conversations, bookings, and voice.
@@ -99,7 +99,7 @@ Included:
   bookings, escalations, captured customer info, usage monitoring, knowledge management,
   behavior settings, booking settings, channel management, reports, billing)
 
-## Receptionist — $199.99/month — "No hold time" (also called "Get the work")
+## Receptionist — $199.99/month — "No hold time"
 
 Phone only: a standalone live inbound-voice product with its own capabilities. It is not
 the Assistant plus voice and does not include the Assistant's website chat. Someone who
