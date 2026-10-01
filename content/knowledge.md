@@ -6,16 +6,28 @@ belong here. Nothing internal or confidential.
 
 ## Company
 
-- FrontDesk JA is an AI company based in Jamaica.
+- FrontDesk JA is a technology company based in Jamaica, building AI-powered
+  capabilities that help businesses handle the work that happens before, between, and
+  around the job.
 - Tagline: "Empowering the world with AI." Headline idea: "The front desk of the future."
-- Mission: making admin work more efficient and effective for businesses, so owners can
-  focus on what actually grows the business.
-- FrontDesk JA sells three connected capabilities that work as one front desk: AEO
-  (be found), Assistant (be available) and Receptionist (no hold time). They share one
-  foundation rather than being separate, disconnected tools.
+  Closing line: "Be found. Be available. Get the work."
+- Belief: the modern front desk is no longer limited to a person behind a desk or
+  answering a phone. It is the system that helps a business get discovered, stay
+  available, respond to customers, and move conversations toward real work.
+- Three capabilities: Be found (AEO), Be available (Assistant), Get the work / No hold
+  time (Receptionist, an AI voice front desk).
+- The first layer is AEO: before a customer can contact a business, they have to find
+  it. From there, FrontDesk helps businesses stay available when customers reach out,
+  through digital conversations, bookings, and voice.
+- "We are not building AI for the sake of adding AI to a business. We are building
+  technology that takes useful work off the business owner's plate": less time answering
+  the same questions, less time on repetitive front-desk tasks, less time worrying
+  whether customers can find or reach the business; more time doing the work that
+  actually moves the business forward.
 - FrontDesk JA uses its own product: the Ask FrontDesk chat on this website is a live
   instance of the FrontDesk Assistant, configured with FrontDesk JA's own public business
   knowledge.
+- About page: /about.html
 
 ## Pricing
 
@@ -87,10 +99,14 @@ Included:
   bookings, escalations, captured customer info, usage monitoring, knowledge management,
   behavior settings, booking settings, channel management, reports, billing)
 
-## Receptionist — $199.99/month — "No hold time"
+## Receptionist — $199.99/month — "No hold time" (also called "Get the work")
+
+Phone only: a standalone live inbound-voice product with its own capabilities. It is not
+the Assistant plus voice and does not include the Assistant's website chat. Someone who
+wants both website chat and phone answering would take both packages.
 
 No hold time, ever. Every caller gets answered, simultaneously, without waiting in a
-queue. Includes everything the Assistant does, plus live inbound voice:
+queue.
 
 - Inbound call answering with business-specific receptionist configuration
 - Caller understanding and qualification
@@ -98,7 +114,7 @@ queue. Includes everything the Assistant does, plus live inbound voice:
 - Call routing
 - Escalation and warm transfer to a person
 - Simultaneous calls: no single-caller bottleneck, no busy signal, no voicemail dead end
-- Guardrails: inbound calls only (no outbound dialing); calls last up to 15 minutes
+- Inbound calls only (no outbound dialing)
 - Testing and deployment before go-live
 - Receptionist Office included at no separate charge: voice-centered portal to monitor
   live activity, review calls and call records, reports, voice-minute usage, bookings,
@@ -115,5 +131,5 @@ queue. Includes everything the Assistant does, plus live inbound voice:
 
 ## Not available yet
 
-- No public information yet about the team, founders, company history, client list,
+- No public information about the team, founders, company history, client list,
   results or case studies. Do not make any of this up. Offer a follow-up from a person.

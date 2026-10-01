@@ -5,6 +5,6 @@
   "engines": { "node": ">=18" },
   "scripts": {
     "start": "node server.mjs",
-    "build:ask": "node scripts/build-ask.mjs"
+    "build:pages": "node scripts/build-pages.mjs"
   }
 }

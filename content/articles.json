@@ -1,5 +1,5 @@
 {
-  "_note": "Ask FrontDesk articles. Source of truth for the hub pages (scripts/build-ask.mjs) and for the Ask FrontDesk Assistant's knowledge (server/knowledge.mjs). After editing, run: npm run build:ask",
+  "_note": "Ask FrontDesk articles. Source of truth for the hub pages (scripts/build-ask.mjs) and for the Ask FrontDesk Assistant's knowledge (server/knowledge.mjs). After editing, run: npm run build:pages",
   "pillars": [
     { "id": "aeo", "name": "AEO", "tagline": "Be found", "intro": "How AI systems find, understand and recommend businesses, and what to get in order." },
     { "id": "assistant", "name": "Assistant", "tagline": "Be available", "intro": "What separates a real digital front desk from a scripted chatbot." },

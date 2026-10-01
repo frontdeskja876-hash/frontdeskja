@@ -1,10 +1,11 @@
 # FrontDesk JA — website
 
-A scroll-paged marketing site with a live AI Assistant.
+A slide-paged marketing site with a live AI Assistant.
 
-- **Home (`index.html`):** a six-page story: Hero, The Solution, AEO, Assistant, Receptionist, Payoff.
+- **Home (`index.html`):** a six-page story: Hero, The Solution, AEO, Assistant, Receptionist, Payoff, plus a closing slide.
 - **Pricing (`pricing.html`):** three packages, plus the sign-up intake.
 - **Ask FrontDesk hub (`ask-frontdesk.html`, `ask/*.html`):** knowledge articles by pillar.
+- **About (`about.html`):** final copy from spec §13.
 - **Ask FrontDesk chat:** on every page, a live instance of the FrontDesk Assistant. It runs on the OpenAI API through a small server.
 
 The front end is plain HTML, CSS and JS with no framework. The server is plain Node 18+ with no dependencies.
@@ -47,32 +48,42 @@ To send the Pricing intake through the same route, set `leadEndpoint: '/api/lead
 
 To change what it knows, edit `content/knowledge.md` or `content/articles.json` and redeploy.
 
-## Ask FrontDesk articles
+## Generated pages
 
-Articles live in `content/articles.json`, grouped by pillar (AEO, Assistant, Receptionist, General). After editing, regenerate the pages:
+Articles live in `content/articles.json`, grouped by pillar (AEO, Assistant, Receptionist, General). The About copy lives in `scripts/build-pages.mjs`. After editing either, regenerate:
 
 ```sh
-npm run build:ask
+npm run build:pages
 ```
 
-The hub and article pages are generated files; don't edit them by hand. The same JSON feeds the Assistant, so the site and the chat stay in sync.
+The hub, article and About pages are generated files; don't edit them by hand. The same articles JSON feeds the Assistant, so the site and the chat stay in sync.
 
 ## Motion model
 
-- **Paging (home page):** one wheel tick, trackpad swipe or arrow key moves exactly one page. `main.js` pages on wheel and keys, waiting out trackpad inertia, and `scroll-snap-type: y mandatory` holds pages in place and handles touch. Nothing on screen tracks the scroll offset. The progress line moves one step per page.
-- **Entrance:** fires once at about 60% visibility and plays on a timer after the page arrives. Three depth layers settle in turn:
-  1. The grey back plate, from furthest away.
-  2. The photo, which starts washed out and develops to full contrast. On the pillar pages it slides in from the side.
+- **Stage, not scroll (home page):** the pages are slides on a fixed stage. One wheel tick, trackpad swipe, arrow key or touch swipe cuts *instantly* to the next or previous page. The outgoing page plays its exit on top while the new page builds itself in underneath. The viewport never travels, nothing tracks a scroll offset, and there is no progress indicator.
+- **Input lock:** input is ignored until a switch settles (1.3s) and the wheel has been quiet, so a long swipe or a double flick moves exactly one page.
+- **Navigation:** menu links, `#aeo`-style deep links and Home/End all cut straight to a page.
+- **Entrance (on arrival, every arrival):** three depth layers settle in turn:
+  1. The grey back plate.
+  2. The photo, which develops from washed-out and, on pillar pages, slides in from the side.
   3. The headline, sharpening from blur word by word. The supporting text follows.
-- **Pillar card:** the record, the chat, the call bar and the page 6 piece each swing in from a 3D tilt at 0.84 scale, and their accent color arrives with them. Once settled, the card tilts slightly toward the mouse.
-- **Accents:**
-  - AEO `#2F6FED`, Assistant `#7C5CFC`, Receptionist `#FF5A4E`, Less Admin `#F5A623`.
-  - Solid colors only, used on demo UI, rules and hover states.
-  - Never on the Hero or Solution pages, never on body text.
-  - The tokens are at the top of `styles.css`.
-- **Idle:** a slow drift on photos, plus one living detail per pillar: the cursor, the typing dots, the waveform and the page 6 cycle.
+- **Pillar card:** it swings in from a 3D tilt at 0.84 scale. Once settled, it tilts slightly toward the mouse.
+- **Idle:** a slow drift on photos, plus one living detail per pillar: the blinking cursor, the typing dots, the waveform and the page 6 cycle.
 - **Exit:** cards lift toward the viewer and fade, photos recede, and on page 1 the mousetrap lifts and rotates away.
-- **Reduced motion:** everything is visible at rest, with no paging or snap and normal scrolling.
+- **Fallbacks:** with reduced motion, or on a screen too short for every page to fit (for example 320×568), the story becomes a normal scrolling document. Every page stays legible and image and text still touch.
+
+## Color: a signal layer (spec §6a)
+
+Black and white is the site. Color appears only when something specific is true, as solid color, never more than one accent at a time, and never on body text or as a wash. The tokens are at the top of `styles.css`.
+
+| Color | Meaning | Where it appears |
+|---|---|---|
+| Lime `#C8FF00` | FrontDesk interaction | Button, chip and nav hover/focus states, and the eyebrow rule, which draws in lime on each page change and settles to black |
+| Cyan `#57E6FF` | AI working | Typing dots in the Assistant demo, and the live chat's typing dots and avatar pulse while it is replying |
+| Amber `#FFB547` | Needs action / confirmed | The "Booked" confirmation in the Assistant demo |
+| Coral `#FF6B5E` | Escalation / failure | Receptionist "1 passed to staff" flash, the chat's "Passed to the FrontDesk team" note, chat and intake error messages |
+
+AEO and Payoff have no color of their own.
 
 ## Layout rule: no dead space
 
@@ -82,7 +93,8 @@ On desktop, each page is a two-column composition that fits within one screen. C
 
 - **Leads:** set `LEAD_WEBHOOK_URL`. Until then, leads from the chat and `/api/lead` only reach the server log. The Pricing intake still sends nothing unless `leadEndpoint` is set.
 - **Assistant model:** `gpt-4.1-mini` is a default; pick the model you want in `OPENAI_MODEL`. The Assistant was tested against a mock of the OpenAI streaming API, not the real API.
-- **About:** still "Next" in the menu with no page.
 - **Ask FrontDesk:** the five articles are spec §12's first batch, mapped to pillars: AEO ← 1 and 5, Assistant ← 2, Receptionist ← 3 and 4. Article 4's "per the previous article" now reads "as with any missed call" because the articles are separate pages. Who writes future articles, and whether a CMS is needed, is still open.
+- **Receptionist:** described as phone only on Pricing and in the Assistant's knowledge. The 15-minute call threshold is internal and appears nowhere public.
+- **Amber on Get Started:** spec §6a lists both lime ("CTA states") and amber ("Get Started interaction"). I kept every button's interaction state lime, so there is one brand signal, and used amber only for booking confirmation.
 - **Bundles:** whether packages are sold as a bundle is undecided. Pricing shows three standalone prices with no tier flagged.
 - **Assets:** the scene images are cropped from the 1456×819 mockups and look soft on large screens. The logo mark is a redrawn vector that should be checked against the master file.

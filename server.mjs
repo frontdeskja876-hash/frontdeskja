@@ -19,7 +19,7 @@ const root = fileURLToPath(new URL('.', import.meta.url));
 const port = Number(process.env.PORT) || 8000;
 
 // Only these top-level paths are public; server code and content sources are not served.
-const PUBLIC = /^\/(index\.html|pricing\.html|ask-frontdesk\.html|ask\/[\w-]+\.html|assets\/[\w./-]+)?$/;
+const PUBLIC = /^\/(index\.html|pricing\.html|about\.html|ask-frontdesk\.html|ask\/[\w-]+\.html|assets\/[\w./-]+)?$/;
 
 const TYPES = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8',

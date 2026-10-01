@@ -68,7 +68,7 @@
   // Plain text in; links to site pages and https URLs become anchors. Never innerHTML user text.
   function renderText(el, text) {
     el.textContent = '';
-    var re = /(https?:\/\/[^\s)]+|\/(?:ask\/[\w-]+\.html|pricing\.html|ask-frontdesk\.html))/g;
+    var re = /(https?:\/\/[^\s)]+|\/(?:ask\/[\w-]+\.html|pricing\.html|about\.html|ask-frontdesk\.html))/g;
     var last = 0, m;
     while ((m = re.exec(text))) {
       if (m.index > last) el.appendChild(document.createTextNode(text.slice(last, m.index)));
@@ -85,6 +85,7 @@
   function linkLabel(path) {
     if (path === '/pricing.html') return 'Pricing';
     if (path === '/ask-frontdesk.html') return 'Ask FrontDesk articles';
+    if (path === '/about.html') return 'About FrontDesk JA';
     return 'Read the article';
   }
 
@@ -105,9 +106,9 @@
     log.scrollTop = log.scrollHeight;
     return el;
   }
-  function note(text) {
+  function note(text, kind) {
     var el = document.createElement('p');
-    el.className = 'ask__note';
+    el.className = 'ask__note' + (kind ? ' ask__note--' + kind : '');
     el.textContent = text;
     log.appendChild(el);
     log.scrollTop = log.scrollHeight;
@@ -148,10 +149,11 @@
     function fail(message) {
       dots.remove();
       if (out && reply) { history.push({ role: 'assistant', content: reply }); save(); }
-      bubble('bot', message);
+      bubble('bot', message).classList.add('ask__msg--error'); // coral: a failed action
       finish();
     }
-    function finish() { busy = false; sendBtn.disabled = false; if (!panel.hidden) input.focus({ preventScroll: true }); }
+    function finish() { busy = false; sendBtn.disabled = false; wrap.classList.remove('is-thinking'); if (!panel.hidden) input.focus({ preventScroll: true }); }
+    wrap.classList.add('is-thinking'); // cyan pulse while the Assistant is working
 
     fetch(endpoint, {
       method: 'POST',
@@ -181,7 +183,7 @@
               renderText(out, reply);
               log.scrollTop = log.scrollHeight;
             } else if (ev.type === 'lead') {
-              note('Your details were sent to the FrontDesk team.');
+              note('Passed to the FrontDesk team. A person will follow up.', 'escalate'); // coral: human handoff
             } else if (ev.type === 'error') {
               return fail(ev.code === 'unconfigured'
                 ? 'I’m not connected on this version of the site yet. To reach the team, use Get Started on the pricing page.'
