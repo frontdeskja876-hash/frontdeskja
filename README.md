@@ -73,6 +73,16 @@ The hub, article and About pages are generated files; don't edit them by hand. T
 - **Exit:** cards lift toward the viewer and fade, photos recede, and on page 1 the mousetrap lifts and rotates away.
 - **Fallbacks:** with reduced motion, or on a screen too short for every page to fit (for example 320×568), the story becomes a normal scrolling document. Every page stays legible and image and text still touch.
 
+### About page motion (spec §13)
+
+Only three passages move; everything else on the About page is static type. Each plays once when it scrolls into view, from `assets/js/about.js`:
+
+- **"The modern front desk" (interactive):** a simple desk-and-phone outline dissolves. Four floating shapes, one per verb in the sentence (discovered, available, respond, real work), drift in at different depths and keep floating. Each follows the cursor with a small shift and tilt, and outlines lime on hover.
+- **"Our first layer…":** a stack of planes rises beside the text and drifts slowly, each plane at its own speed.
+- **"Less time… / More time…":** the three "less time" lines float in one after another. "More time" lands last, with a bigger, slower settle.
+
+All of this is monochrome apart from the lime hover. With reduced motion, everything shows in its final state.
+
 ## Color: a signal layer (spec §6a)
 
 Black and white is the site. Color appears only when something specific is true, as solid color, never more than one accent at a time, and never on body text or as a wash. The tokens are at the top of `styles.css`.
