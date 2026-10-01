@@ -79,7 +79,7 @@ Black and white is the site. Color appears only when something specific is true,
 
 | Color | Meaning | Where it appears |
 |---|---|---|
-| Lime `#C8FF00` | FrontDesk interaction | Button, chip and nav hover/focus states, and the eyebrow rule, which draws in lime on each page change and settles to black |
+| Lime `#C8FF00` | FrontDesk interaction | Button, chip and nav hover/focus states, Ask FrontDesk article cards on hover/focus (lime edge ring and title underline, same for every pillar), and the eyebrow rule, which draws in lime on each page change and settles to black |
 | Cyan `#57E6FF` | AI working | Typing dots in the Assistant demo, and the live chat's typing dots and avatar pulse while it is replying |
 | Amber `#FFB547` | Needs action / confirmed | The "Booked" confirmation in the Assistant demo |
 | Coral `#FF6B5E` | Escalation / failure | Receptionist "1 passed to staff" flash, the chat's "Passed to the FrontDesk team" note, chat and intake error messages |
