@@ -22,14 +22,6 @@ export function loadKnowledge() {
   return cached;
 }
 
-// The approved knowledge + articles on their own, for the Agents API path: there the
-// persona/instructions live on the saved agent in the OpenAI dashboard, and only the
-// reference material is sent with each request.
-export function referenceBlock() {
-  const { knowledge, articleText } = loadKnowledge();
-  return `=== APPROVED FRONTDESK KNOWLEDGE ===\n${knowledge}\n\n=== PUBLISHED ASK FRONTDESK ARTICLES ===\n${articleText}`;
-}
-
 export function systemPrompt() {
   const { knowledge, articleText } = loadKnowledge();
   return `You are the core intelligence behind Ask FrontDesk, the educational and knowledge platform of FrontDesk JA. You run on the same FrontDesk Assistant technology FrontDesk JA sells to clients, configured here with a broader purpose: helping business owners — especially those in HVAC, plumbing, electrical contracting, and related home-services trades — understand artificial intelligence, AI agents, AI-powered business systems, AEO, automation, and digital front desks, as well as answering questions about FrontDesk JA itself.

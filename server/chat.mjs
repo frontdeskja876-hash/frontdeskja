@@ -6,7 +6,6 @@
 // drift apart.
 import { systemPrompt } from './knowledge.mjs';
 import { tools, runTool } from './tools.mjs';
-import { runAgentChat } from './agent.mjs';
 
 export const MAX_TURNS = 16;
 export const MAX_CHARS = 2000;
@@ -60,13 +59,7 @@ async function* streamCompletion({ apiKey, baseUrl, model, reasoningEffort, maxC
 //   { type: 'lead', ok }      — capture_lead succeeded
 //   { type: 'error', code, message }
 //   { type: 'done' }
-export async function* runChat({ apiKey, baseUrl, model, reasoningEffort, maxCompletionTokens, webhookUrl, history, signal, agentId, allowedDomains, waitUntil }) {
-  // AGENT_ID set: use the saved OpenAI agent (Agents API). Unset: the original Chat
-  // Completions path below, so the site keeps working without it.
-  if (agentId) {
-    yield* runAgentChat({ apiKey, baseUrl, agentId, webhookUrl, history, signal, allowedDomains, waitUntil });
-    return;
-  }
+export async function* runChat({ apiKey, baseUrl, model, reasoningEffort, maxCompletionTokens, webhookUrl, history, signal }) {
   const messages = [{ role: 'system', content: systemPrompt() }, ...history];
   try {
     for (let round = 0; round < 3; round++) {
