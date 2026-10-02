@@ -2,15 +2,13 @@
 // (/api/lead). Plain Node (req, res) handlers: used only by server.mjs, for local dev
 // and any traditional Node host. The deployed site runs on Cloudflare Pages instead,
 // which uses its own handler shape — see functions/api/chat.js and functions/api/lead.js,
-// which share this same system prompt / tools / leads logic via knowledge.mjs, tools.mjs
-// and leads.mjs, just wired to Cloudflare's Request/Response/env instead of Node's
-// (req, res)/process.env.
+// which share this same conversation logic via server/chat.mjs, just wired to
+// Cloudflare's Request/Response/env instead of Node's (req, res)/process.env.
 //
 // The OpenAI API key lives only in the server environment (OPENAI_API_KEY) and is never
 // sent to the browser.
-import { systemPrompt } from './knowledge.mjs';
 import { normaliseLead, isValidEmail, deliverLead } from './leads.mjs';
-import { tools, runTool } from './tools.mjs';
+import { runChat, cleanMessages } from './chat.mjs';
 
 const OPENAI_BASE = (process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1').replace(/\/$/, '');
 // gpt-6.1-sol: explicit choice (overrides spec §4's gpt-5-mini cost/competence pick —
@@ -19,8 +17,6 @@ const OPENAI_BASE = (process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1')
 // model is overridden; reasoning_effort stays 'medium' below per explicit direction.
 const MODEL = process.env.OPENAI_MODEL || 'gpt-6.1-sol';
 const MAX_BODY = 32 * 1024;
-const MAX_TURNS = 16;
-const MAX_CHARS = 2000;
 
 /* ---------- small utilities ---------- */
 
@@ -62,52 +58,6 @@ function rateLimited(req, limit, windowMs) {
   return h.n > limit;
 }
 
-function cleanMessages(list) {
-  if (!Array.isArray(list)) return null;
-  const out = list
-    .filter((m) => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
-    .map((m) => ({ role: m.role, content: m.content.slice(0, MAX_CHARS) }))
-    .slice(-MAX_TURNS);
-  if (!out.length || out[out.length - 1].role !== 'user' || !out[out.length - 1].content.trim()) return null;
-  return out;
-}
-
-// tools + runTool now come from ./tools.mjs (shared with the Cloudflare Functions).
-// runTool here is wrapped so the rest of this file can keep calling runTool(call).
-const runToolNode = (call) => runTool(call, process.env.LEAD_WEBHOOK_URL);
-
-/* ---------- OpenAI streaming ---------- */
-
-async function* streamCompletion(messages, signal) {
-  const r = await fetch(`${OPENAI_BASE}/chat/completions`, {
-    method: 'POST',
-    signal,
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
-    body: JSON.stringify({ model: MODEL, messages, tools, stream: true, max_completion_tokens: 1200, reasoning_effort: 'medium' })
-  });
-  if (!r.ok || !r.body) {
-    const detail = await r.text().catch(() => '');
-    throw new Error(`OpenAI ${r.status}: ${detail.slice(0, 300)}`);
-  }
-  const reader = r.body.getReader();
-  const decoder = new TextDecoder();
-  let buf = '';
-  for (;;) {
-    const { value, done } = await reader.read();
-    if (done) break;
-    buf += decoder.decode(value, { stream: true });
-    let nl;
-    while ((nl = buf.indexOf('\n')) >= 0) {
-      const line = buf.slice(0, nl).trim();
-      buf = buf.slice(nl + 1);
-      if (!line.startsWith('data:')) continue;
-      const data = line.slice(5).trim();
-      if (data === '[DONE]') return;
-      try { yield JSON.parse(data); } catch { /* ignore keep-alives / partial noise */ }
-    }
-  }
-}
-
 export async function chatHandler(req, res) {
   if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return sendJson(res, 405, { error: 'POST only' }); }
   if (rateLimited(req, 30, 5 * 60 * 1000)) return sendJson(res, 429, { error: 'Too many messages. Please wait a few minutes.' });
@@ -131,44 +81,23 @@ export async function chatHandler(req, res) {
   const abort = new AbortController();
   res.on('close', () => { if (!res.writableEnded) abort.abort(); });
 
-  const messages = [{ role: 'system', content: systemPrompt() }, ...history];
-  try {
-    for (let round = 0; round < 3; round++) {
-      const calls = [];
-      let text = '';
-      let finish = null;
-      for await (const chunk of streamCompletion(messages, abort.signal)) {
-        const choice = chunk.choices?.[0];
-        if (!choice) continue;
-        const d = choice.delta || {};
-        if (d.content) { text += d.content; send({ type: 'delta', text: d.content }); }
-        for (const tc of d.tool_calls || []) {
-          const c = calls[tc.index] || (calls[tc.index] = { id: '', name: '', arguments: '' });
-          if (tc.id) c.id = tc.id;
-          if (tc.function?.name) c.name += tc.function.name;
-          if (tc.function?.arguments) c.arguments += tc.function.arguments;
-        }
-        if (choice.finish_reason) finish = choice.finish_reason;
-      }
-      if (finish !== 'tool_calls' || !calls.length) break;
-
-      messages.push({
-        role: 'assistant',
-        content: text || null,
-        tool_calls: calls.map((c) => ({ id: c.id, type: 'function', function: { name: c.name, arguments: c.arguments } }))
-      });
-      for (const c of calls) {
-        const result = await runToolNode(c);
-        if (c.name === 'capture_lead' && result.ok) send({ type: 'lead', ok: true });
-        messages.push({ role: 'tool', tool_call_id: c.id, content: JSON.stringify(result) });
-      }
-    }
-    send({ type: 'done' });
-  } catch (e) {
-    if (!abort.signal.aborted) {
-      console.error('[chat]', e.message);
-      send({ type: 'error', code: 'upstream', message: 'Something went wrong on our side. Please try again.' });
-    }
+  for await (const event of runChat({
+    apiKey: process.env.OPENAI_API_KEY,
+    baseUrl: OPENAI_BASE,
+    model: MODEL,
+    // gpt-6.1-sol via Chat Completions only supports function/tool calling (the
+    // capture_lead tool) when reasoning_effort is 'none' — confirmed in OpenAI's own
+    // model docs. The capture_lead tool has to be offered on every turn (the model
+    // decides on its own when a visitor is ready to be contacted), so this applies to
+    // every reply, not just the moment someone shares their info. Explicit tradeoff,
+    // confirmed with the user: reliable lead capture over deeper per-reply reasoning.
+    reasoningEffort: 'none',
+    maxCompletionTokens: 1200,
+    webhookUrl: process.env.LEAD_WEBHOOK_URL,
+    history,
+    signal: abort.signal
+  })) {
+    send(event);
   }
   res.end();
 }
