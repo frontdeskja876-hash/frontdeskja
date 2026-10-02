@@ -20,7 +20,7 @@ function sseLine(obj) {
   return encoder.encode(`data: ${JSON.stringify(obj)}\n\n`);
 }
 
-export async function onRequestPost({ request, env }) {
+export async function onRequestPost({ request, env, waitUntil }) {
   if (rateLimited(request.headers.get('cf-connecting-ip'), 30, 5 * 60 * 1000)) {
     return new Response(JSON.stringify({ error: 'Too many messages. Please wait a few minutes.' }), {
       status: 429, headers: { 'Content-Type': 'application/json; charset=utf-8' }
@@ -66,6 +66,10 @@ export async function onRequestPost({ request, env }) {
           maxCompletionTokens: 1200,
           webhookUrl: env.LEAD_WEBHOOK_URL,
           history,
+          // Set AGENT_ID to answer from the saved OpenAI "Ask FrontDesk" agent.
+          agentId: env.AGENT_ID,
+          allowedDomains: (env.AGENT_ALLOWED_DOMAINS || '').split(',').map((s) => s.trim()).filter(Boolean),
+          waitUntil,
           signal: request.signal
         })) {
           controller.enqueue(sseLine(event));

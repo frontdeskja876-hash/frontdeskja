@@ -95,6 +95,8 @@ export async function chatHandler(req, res) {
     maxCompletionTokens: 1200,
     webhookUrl: process.env.LEAD_WEBHOOK_URL,
     history,
+    agentId: process.env.AGENT_ID,
+    allowedDomains: (process.env.AGENT_ALLOWED_DOMAINS || '').split(',').map((s) => s.trim()).filter(Boolean),
     signal: abort.signal
   })) {
     send(event);
