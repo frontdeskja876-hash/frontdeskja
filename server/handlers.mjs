@@ -8,7 +8,11 @@ import { systemPrompt } from './knowledge.mjs';
 import { normaliseLead, isValidEmail, deliverLead } from './leads.mjs';
 
 const OPENAI_BASE = (process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1').replace(/\/$/, '');
-const MODEL = process.env.OPENAI_MODEL || 'gpt-4.1-mini';
+// gpt-5-mini: the cost/competence balance for Ask FrontDesk's duties (spec §4) — cheap
+// enough to run at volume, capable enough to hold the fact-vs-speculation discipline
+// those duties require. reasoning_effort stays 'medium' below for the same reason:
+// 'low' risks confident-but-wrong answers on judgment-dependent questions.
+const MODEL = process.env.OPENAI_MODEL || 'gpt-5-mini';
 const MAX_BODY = 32 * 1024;
 const MAX_TURNS = 16;
 const MAX_CHARS = 2000;
@@ -106,7 +110,7 @@ async function* streamCompletion(messages, signal) {
     method: 'POST',
     signal,
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
-    body: JSON.stringify({ model: MODEL, messages, tools, stream: true, max_completion_tokens: 700 })
+    body: JSON.stringify({ model: MODEL, messages, tools, stream: true, max_completion_tokens: 1200, reasoning_effort: 'medium' })
   });
   if (!r.ok || !r.body) {
     const detail = await r.text().catch(() => '');
