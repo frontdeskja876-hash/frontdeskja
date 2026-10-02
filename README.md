@@ -29,8 +29,10 @@ Without `OPENAI_API_KEY`, the site still works. The chat then tells visitors it 
 
 | Variable | Purpose |
 |---|---|
-| `OPENAI_API_KEY` | Required for the Assistant. Server-side only, never sent to the browser. |
-| `OPENAI_MODEL` | Default `gpt-6.1-sol`. |
+| `OPENAI_API_KEY` | Required for the Assistant. Server-side only, never sent to the browser. Must belong to the same OpenAI project as the agent; a restricted key needs `api.agents.read`, `api.agents.write` and `api.responses.write`. |
+| `AGENT_ID` | The saved "Ask FrontDesk" agent (`agent_...`, shown in its page URL at platform.openai.com/agents). When set, `/api/chat` answers from that agent through the Agents API. Empty = the Chat Completions fallback below. |
+| `AGENT_ALLOWED_DOMAINS` | Optional, comma-separated. Restricts the agent's web search to these domains. Empty = any site. |
+| `OPENAI_MODEL` | Chat Completions fallback only (default `gpt-6.1-sol`). With `AGENT_ID` set, the model is the agent's own setting. |
 | `OPENAI_BASE_URL` | Default `https://api.openai.com/v1`. |
 | `LEAD_WEBHOOK_URL` | Leads from the chat and the intake are POSTed here as JSON (CRM, Zapier, Make, Google Apps Script…). Unset means leads go only to the server log. |
 
@@ -45,6 +47,7 @@ To send the Pricing intake through the same route, set `leadEndpoint: '/api/lead
   - It qualifies visitors and escalates by collecting name and email through a `capture_lead` tool call.
 - **Safeguards:** a per-IP rate limit, a message-length cap, a 16-turn history window and a 32 KB body limit. The rate limit is in-memory, so it applies per instance.
 - **Streaming:** OpenAI Chat Completions stream to the server (Cloudflare Function or Node process), which relays them to the widget as server-sent events.
+- **OpenAI agent (`AGENT_ID`):** with `AGENT_ID` set, `server/agent.mjs` runs each message as a one-turn session on the saved agent (Agents API, no sandbox) and deletes the session afterwards. Persona instructions, model and reasoning come from the agent in the OpenAI dashboard. The approved knowledge and articles are sent with every request, because the Agents API has no knowledge-base upload. Tools are set per session in code (web search plus `capture_lead`), so they override whatever tools the dashboard lists. The reply is relayed to the widget once the turn finishes, not token by token. The widget contract is unchanged.
 - **Disclosure:** the chat header says "You're talking to FrontDesk's own Assistant". Spec §4 left that open; I chose to say it.
 
 To change what it knows, edit `content/knowledge.md` or `content/articles.json`, then run `npm run build:knowledge` before redeploying — the Assistant reads from `content/generated-knowledge.js` at request time (a plain-JS build of those two source files), not the source files directly, since the deployed Cloudflare Functions have no filesystem to read them from live.

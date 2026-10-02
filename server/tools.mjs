@@ -24,6 +24,10 @@ export const tools = [{
   }
 }];
 
+// The same tool in the Agents API's flat shape ({ type, name, description, parameters }),
+// derived from the definition above so the two can't drift apart.
+export const agentLeadTool = { type: 'function', ...tools[0].function };
+
 // webhookUrl passed explicitly — see server/leads.mjs for why (no process.env in Workers).
 export async function runTool(call, webhookUrl) {
   if (call.name !== 'capture_lead') return { ok: false, error: 'unknown tool' };

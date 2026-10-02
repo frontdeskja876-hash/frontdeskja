@@ -7,6 +7,6 @@
     "start": "node server.mjs",
     "build:pages": "node scripts/build-pages.mjs",
     "build:knowledge": "node scripts/build-knowledge.mjs",
-    "test": "node scripts/test-functions.mjs && node scripts/test-stream.mjs"
+    "test": "node scripts/test-functions.mjs && node scripts/test-stream.mjs && node scripts/test-agent.mjs"
   }
 }
