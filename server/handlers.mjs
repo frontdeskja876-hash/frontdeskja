@@ -8,11 +8,10 @@ import { systemPrompt } from './knowledge.mjs';
 import { normaliseLead, isValidEmail, deliverLead } from './leads.mjs';
 
 const OPENAI_BASE = (process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1').replace(/\/$/, '');
-// gpt-5-mini: the cost/competence balance for Ask FrontDesk's duties (spec §4) — cheap
-// enough to run at volume, capable enough to hold the fact-vs-speculation discipline
-// those duties require. reasoning_effort stays 'medium' below for the same reason:
-// 'low' risks confident-but-wrong answers on judgment-dependent questions.
-const MODEL = process.env.OPENAI_MODEL || 'gpt-5-mini';
+// gpt-6.1-sol: explicit choice (overrides spec §4's gpt-5-mini cost/competence pick —
+// see the spec's model note for the cost tradeoff this accepts). reasoning_effort stays
+// 'medium' below; raise if judgment-dependent answers need it, lower for latency.
+const MODEL = process.env.OPENAI_MODEL || 'gpt-6.1-sol';
 const MAX_BODY = 32 * 1024;
 const MAX_TURNS = 16;
 const MAX_CHARS = 2000;
