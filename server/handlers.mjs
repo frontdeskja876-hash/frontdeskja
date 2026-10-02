@@ -9,8 +9,10 @@ import { normaliseLead, isValidEmail, deliverLead } from './leads.mjs';
 
 const OPENAI_BASE = (process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1').replace(/\/$/, '');
 // gpt-6.1-sol: explicit choice (overrides spec §4's gpt-5-mini cost/competence pick —
-// see the spec's model note for the cost tradeoff this accepts). reasoning_effort stays
-// 'medium' below; raise if judgment-dependent answers need it, lower for latency.
+// see the spec's model note: quality over cost, deliberately — Ask FrontDesk is the
+// first live demo of the Assistant product prospective clients interact with.
+// reasoning_effort is 'high' below for the same reason; expect higher per-reply latency
+// as the real tradeoff that buys, not just a higher bill.
 const MODEL = process.env.OPENAI_MODEL || 'gpt-6.1-sol';
 const MAX_BODY = 32 * 1024;
 const MAX_TURNS = 16;
@@ -109,7 +111,7 @@ async function* streamCompletion(messages, signal) {
     method: 'POST',
     signal,
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
-    body: JSON.stringify({ model: MODEL, messages, tools, stream: true, max_completion_tokens: 1200, reasoning_effort: 'medium' })
+    body: JSON.stringify({ model: MODEL, messages, tools, stream: true, max_completion_tokens: 1800, reasoning_effort: 'high' })
   });
   if (!r.ok || !r.body) {
     const detail = await r.text().catch(() => '');
