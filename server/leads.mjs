@@ -27,8 +27,12 @@ export function isValidEmail(e) {
   return typeof e === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
 }
 
-export async function deliverLead(lead) {
-  const url = process.env.LEAD_WEBHOOK_URL;
+// webhookUrl is passed explicitly rather than read from process.env here, so this same
+// function works under Node (server.mjs passes process.env.LEAD_WEBHOOK_URL) and under
+// Cloudflare Pages Functions (functions/api/*.js pass env.LEAD_WEBHOOK_URL) — Workers has
+// no process.env.
+export async function deliverLead(lead, webhookUrl) {
+  const url = webhookUrl;
   if (!url) {
     console.warn('[lead] LEAD_WEBHOOK_URL is not set; lead logged only:', JSON.stringify(lead));
     return { delivered: false };

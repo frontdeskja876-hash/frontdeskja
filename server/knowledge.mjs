@@ -1,18 +1,18 @@
 // Builds the Ask FrontDesk Assistant's instructions from approved, public content only:
 // content/knowledge.md (company, products, pricing) + content/articles.json (published
 // Ask FrontDesk articles). Nothing is accepted from the browser.
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
-
-const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+//
+// Imports the generated module, not the .md/.json source files directly: this code also
+// runs inside Cloudflare Pages Functions (the Workers runtime), which has no filesystem
+// to read content/ from at request time. content/generated-knowledge.js is a plain JS
+// module built from those source files — see scripts/build-knowledge.mjs. If you edited
+// content/knowledge.md or content/articles.json, run `npm run build:knowledge` first.
+import { knowledge, articles } from '../content/generated-knowledge.js';
 
 let cached = null;
 
 export function loadKnowledge() {
   if (cached) return cached;
-  const knowledge = readFileSync(join(root, 'content/knowledge.md'), 'utf8');
-  const { articles } = JSON.parse(readFileSync(join(root, 'content/articles.json'), 'utf8'));
 
   const articleText = articles.map((a) =>
     `### ${a.title}\nURL: /ask/${a.slug}.html\n\n${a.paragraphs.join('\n\n')}`

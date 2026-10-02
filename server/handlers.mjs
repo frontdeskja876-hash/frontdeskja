@@ -1,11 +1,16 @@
 // HTTP handlers for the Ask FrontDesk Assistant (/api/chat) and the website intake
-// (/api/lead). Plain Node (req, res) handlers: used by server.mjs and by the
-// Vercel-style wrappers in /api.
+// (/api/lead). Plain Node (req, res) handlers: used only by server.mjs, for local dev
+// and any traditional Node host. The deployed site runs on Cloudflare Pages instead,
+// which uses its own handler shape — see functions/api/chat.js and functions/api/lead.js,
+// which share this same system prompt / tools / leads logic via knowledge.mjs, tools.mjs
+// and leads.mjs, just wired to Cloudflare's Request/Response/env instead of Node's
+// (req, res)/process.env.
 //
 // The OpenAI API key lives only in the server environment (OPENAI_API_KEY) and is never
 // sent to the browser.
 import { systemPrompt } from './knowledge.mjs';
 import { normaliseLead, isValidEmail, deliverLead } from './leads.mjs';
+import { tools, runTool } from './tools.mjs';
 
 const OPENAI_BASE = (process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1').replace(/\/$/, '');
 // gpt-6.1-sol: explicit choice (overrides spec §4's gpt-5-mini cost/competence pick —
@@ -67,41 +72,9 @@ function cleanMessages(list) {
   return out;
 }
 
-/* ---------- the Assistant's one tool ---------- */
-
-const tools = [{
-  type: 'function',
-  function: {
-    name: 'capture_lead',
-    description: 'Send a visitor\'s contact details to the FrontDesk team so a person follows up. Call once, only after the visitor has given at least their name and email.',
-    parameters: {
-      type: 'object',
-      properties: {
-        name: { type: 'string' },
-        email: { type: 'string' },
-        phone: { type: 'string', description: 'Optional' },
-        business: { type: 'string', description: 'Business name, if given' },
-        package: { type: 'string', description: 'AEO, Assistant, Receptionist, or unsure' },
-        need: { type: 'string', description: 'One-line summary of what they need' }
-      },
-      required: ['name', 'email', 'need']
-    }
-  }
-}];
-
-async function runTool(call) {
-  if (call.name !== 'capture_lead') return { ok: false, error: 'unknown tool' };
-  let args = {};
-  try { args = JSON.parse(call.arguments || '{}'); } catch { return { ok: false, error: 'invalid arguments' }; }
-  if (!isValidEmail(args.email)) return { ok: false, error: 'The email address looks incomplete. Ask the visitor to check it.' };
-  try {
-    await deliverLead(normaliseLead(args, 'ask-frontdesk-chat'));
-    return { ok: true };
-  } catch (e) {
-    console.error('[lead] delivery failed:', e.message);
-    return { ok: false, error: 'Could not send right now. Apologise briefly and suggest using Get Started on the pricing page.' };
-  }
-}
+// tools + runTool now come from ./tools.mjs (shared with the Cloudflare Functions).
+// runTool here is wrapped so the rest of this file can keep calling runTool(call).
+const runToolNode = (call) => runTool(call, process.env.LEAD_WEBHOOK_URL);
 
 /* ---------- OpenAI streaming ---------- */
 
@@ -185,7 +158,7 @@ export async function chatHandler(req, res) {
         tool_calls: calls.map((c) => ({ id: c.id, type: 'function', function: { name: c.name, arguments: c.arguments } }))
       });
       for (const c of calls) {
-        const result = await runTool(c);
+        const result = await runToolNode(c);
         if (c.name === 'capture_lead' && result.ok) send({ type: 'lead', ok: true });
         messages.push({ role: 'tool', tool_call_id: c.id, content: JSON.stringify(result) });
       }
@@ -208,7 +181,7 @@ export async function leadHandler(req, res) {
   const lead = normaliseLead(body, 'website-intake');
   if (!lead.name || !isValidEmail(lead.email)) return sendJson(res, 400, { error: 'Name and a valid email are required.' });
   try {
-    const r = await deliverLead(lead);
+    const r = await deliverLead(lead, process.env.LEAD_WEBHOOK_URL);
     return sendJson(res, 200, { ok: true, delivered: r.delivered });
   } catch (e) {
     console.error('[lead] delivery failed:', e.message);
